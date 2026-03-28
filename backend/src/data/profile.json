@@ -1,0 +1,217 @@
+{
+  "name": "Kunal Wadhai",
+  "title": "Backend Engineer",
+  "bio": "Backend Engineer passionate about scalable systems, IoT integrations, and building things that work reliably at production scale. Currently at Guestara, where I've shipped integrations with multiple PMS platforms, a smart lock system via Tuya IoT, and data-heavy dashboard APIs.",
+  "location": "Yavatmal, Maharashtra, India",
+  "social": {
+    "linkedinUrl": "https://www.linkedin.com/in/kunal-wadhai/",
+    "githubUrl": "https://github.com/KunalWadhai",
+    "githubHandle": "KunalWadhai",
+    "leetcodeUrl": "https://leetcode.com/u/lost_war/",
+    "xUrl": "https://x.com/AloneWarrior27",
+    "email": "kunalwadhai456@gmail.com"
+  },
+  "skills": {
+    "groups": {
+      "Languages": [
+        "C/C++",
+        "Java",
+        "Python",
+        "JavaScript",
+        "HTML",
+        "CSS"
+      ],
+      "Backend & APIs": [
+        "Node.js",
+        "Express.js",
+        "RESTful APIs",
+        "Postman",
+        "Microservices",
+        "System integration"
+      ],
+      "Databases": [
+        "Redis",
+        "MongoDB",
+        "Postgres",
+        "MySQL",
+        "SQL"
+      ],
+      "Cloud/Observability": [
+        "Amazon CloudWatch"
+      ],
+      "AI/Generative AI": [
+        "Generative AI",
+        "OpenAI API"
+      ],
+      "Systems & Embedded/Hardware": [
+        "Raspberry Pi",
+        "BeagleBone Black",
+        "Yocto project",
+        "OpenBMC",
+        "Building binary images (Ubuntu kernel)",
+        "Ubuntu"
+      ],
+      "Dev & Collaboration": [
+        "Linux",
+        "Git",
+        "GitHub",
+        "GitLab"
+      ]
+    }
+  },
+  "education": [
+    {
+      "school": "Government College of Engineering Chandrapur",
+      "degree": "Engineering (Computer Science & Engineering)",
+      "startYear": 2021,
+      "endYear": 2025,
+      "cgpa": 8.53
+    },
+    {
+      "school": "Shivshakti Junior College Kotha",
+      "degree": "Higher Secondary Education",
+      "startYear": 2020,
+      "endYear": 2021,
+      "percentage": 79.17
+    }
+  ],
+  "experience": [
+    {
+      "company": "Zoho",
+      "role": "Firmware Engineering Intern / Project Trainee",
+      "start": "2025-01",
+      "end": "2025-04",
+      "technologies": [
+        "Linux",
+        "Shell Scripting",
+        "C",
+        "YOCTO Project",
+        "OpenBMC",
+        "Raspberry Pi",
+        "BeagleBone Black"
+      ],
+      "integrations": [],
+      "achievements": [
+        {
+          "title": "Firmware Development on Embedded Platforms",
+          "points": [
+            "Worked on OpenBMC firmware for server hardware management",
+            "Built and customized Yocto-based Linux images for Raspberry Pi and BeagleBone Black",
+            "Developed shell scripts to automate firmware build and deployment pipelines"
+          ]
+        }
+      ]
+    },
+    {
+      "company": "Guestara",
+      "role": "Backend Engineering Intern → Full Time",
+      "start": "2024-11",
+      "end": "Present",
+      "technologies": [
+        "JavaScript",
+        "Node.js",
+        "Express.js",
+        "RESTful APIs",
+        "Postman",
+        "Microservices",
+        "System integration",
+        "Redis",
+        "MongoDB",
+        "Postgres",
+        "MySQL",
+        "SQL",
+        "Amazon CloudWatch",
+        "Generative AI",
+        "Linux",
+        "Git",
+        "GitHub",
+        "GitLab"
+      ],
+      "integrations": [
+        "Beds24",
+        "Ezee",
+        "Hotelogix",
+        "Tuya IoT"
+      ],
+      "achievements": [
+        {
+          "title": "Built integrations with Beds24, Ezee, and Hotelogix",
+          "points": [
+            "Aggregated bookings from multiple PMS sources and OTAs",
+            "Maintained real-time room and guest data synchronization",
+            "Resolved critical production issues ensuring complete booking data sync"
+          ]
+        },
+        {
+          "title": "Engineered a smart room allocation system (Beds24)",
+          "points": [
+            "Automatically assigns optimal rooms based on availability and booking conditions",
+            "Reduced manual allocation effort significantly"
+          ]
+        },
+        {
+          "title": "Developed financial sync pipeline with Hotelogix",
+          "points": [
+            "Ensured upsell and payment data consistency across systems",
+            "Implemented add-payment-to-booking API integration"
+          ]
+        },
+        {
+          "title": "Designed a Tuya IoT-based Smart Lock System",
+          "points": [
+            "Automated room access via time-bound digital passcodes",
+            "Enabled remote lock management for property admins",
+            "Synced IoT devices dynamically with Guestara booking lifecycle using Pulsar event streaming"
+          ]
+        },
+        {
+          "title": "Built data-heavy dashboard APIs",
+          "points": [
+            "Unified guest, booking, payment, and analytics data",
+            "Provided operational insights like arrivals, departures, and guest tracking"
+          ]
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "foodSnatch",
+      "url": "foodsnatch.onrender.com",
+      "githubUrl": "https://github.com/KunalWadhai/foodSnatch",
+      "description": "A full-stack food delivery and ordering application built with the MERN stack. Features user authentication, restaurant browsing, cart management, and order tracking.",
+      "technologies": [
+        "MongoDB",
+        "Express.js",
+        "React",
+        "Node.js"
+      ],
+      "highlights": [
+        "Full MERN stack implementation with JWT authentication",
+        "Real-time order status updates",
+        "Responsive UI with cart and checkout flow"
+      ]
+    }
+  ],
+  "resume": {
+    "pdfUrl": "https://drive.google.com/uc?export=download&id=17PSerWGj5S0aRT2TZJnEf_FtyOr91hCA",
+    "videoUrl": null
+  },
+  "maps": {
+    "query": "Yavatmal, Maharashtra, India"
+  },
+  "programmingDashboards": {
+    "leetcode": {
+      "handle": "lost_war",
+      "url": "https://leetcode.com/u/lost_war/"
+    },
+    "hackerrank": {
+      "username": "Kunal_Wadhai",
+      "url": "https://www.hackerrank.com/profile/Kunal_Wadhai"
+    },
+    "gfg": {
+      "username": "alone_warrior_11011",
+      "url": "https://www.geeksforgeeks.org/profile/alone_warrior_11011"
+    }
+  }
+}

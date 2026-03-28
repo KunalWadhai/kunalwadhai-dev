@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ─── Design tokens ───────────────────────────────────── */
+:root {
+  --bg:           #08090d;
+  --bg-1:         #0d0f18;
+  --bg-2:         #111420;
+  --bg-card:      rgba(255,255,255,0.032);
+  --bg-card-h:    rgba(255,255,255,0.055);
+
+  --border:       rgba(255,255,255,0.08);
+  --border-h:     rgba(124,58,237,0.45);
+  --border-g:     rgba(34,197,94,0.35);
+
+  --text:         rgba(255,255,255,0.72);
+  --text-h:       rgba(255,255,255,0.96);
+  --text-sub:     rgba(255,255,255,0.50);
+
+  --violet:       #7c3aed;
+  --violet-light: #a78bfa;
+  --green:        #22c55e;
+  --green-light:  #86efac;
+  --indigo:       #6366f1;
+
+  --grad-primary: linear-gradient(135deg, #7c3aed 0%, #22c55e 100%);
+  --grad-card:    radial-gradient(600px 240px at 18% 0%, rgba(124,58,237,0.22), transparent 65%);
+  --grad-glow:    radial-gradient(400px 200px at 50% 0%, rgba(124,58,237,0.28), transparent 70%);
+
+  --font-sans:    'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, Consolas, monospace;
+
+  --radius-sm:    8px;
+  --radius:       16px;
+  --radius-lg:    24px;
+  --radius-xl:    32px;
+  --radius-full:  9999px;
+
+  --shadow-sm:    0 4px 20px rgba(0,0,0,0.35);
+  --shadow-md:    0 15px 60px rgba(0,0,0,0.5);
+  --shadow-lg:    0 30px 100px rgba(0,0,0,0.65);
+  --shadow-glow:  0 0 40px rgba(124,58,237,0.35);
+
+  --transition:   0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  color-scheme: dark;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Reset ──────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  min-height: 100dvh;
+}
+
+#root {
+  width: 100%;
+  min-height: 100dvh;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-sans);
+  color: var(--text-h);
+  letter-spacing: -0.03em;
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0;
+}
+
+h1 { font-size: clamp(28px, 5vw, 56px); }
+h2 { font-size: clamp(20px, 3vw, 30px); }
+h3 { font-size: 18px; }
+
+p { margin: 0; }
+
+a { color: inherit; text-decoration: none; }
+
+code, .mono {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+}
+
+::selection {
+  background: rgba(124,58,237,0.35);
+  color: #fff;
+}
+
+/* ─── Scrollbar ───────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(124,58,237,0.4);
+  border-radius: var(--radius-full);
+}
+
+@media (max-width: 768px) {
+  :root { font-size: 15px; }
+}
