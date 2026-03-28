@@ -11,11 +11,6 @@ const profile = JSON.parse(
 
 const router = Router()
 
-/**
- * POST /api/chat
- * Body: { message: string, history?: Array<{role, content}> }
- * Returns: { ok: true, answer: string }
- */
 router.post('/', async (req, res, next) => {
     try {
         const { message, history } = req.body
@@ -27,7 +22,6 @@ router.post('/', async (req, res, next) => {
             return res.status(400).json({ ok: false, error: 'message too long (max 1000 chars)' })
         }
 
-        // Build conversation history: max last 10 exchanges to stay within token budget
         const safeHistory = Array.isArray(history) ? history.slice(-10) : []
         const messages = [
             ...safeHistory.map((m) => ({
