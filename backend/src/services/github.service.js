@@ -13,10 +13,6 @@ function headers() {
     return h
 }
 
-/**
- * Fetches public GitHub summary for a given username.
- * Returns: { publicRepos, followers, following, repos[] }
- */
 export async function getGithubSummary(username) {
     if (!username) throw Object.assign(new Error('username is required'), { status: 400 })
 

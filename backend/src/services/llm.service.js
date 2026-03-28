@@ -64,12 +64,6 @@ ${projectLines}
 - Keep responses under 300 words unless a detailed explanation is genuinely needed`
 }
 
-/**
- * Sends messages to OpenAI and returns the assistant's reply.
- * @param {Array<{role: 'user'|'assistant', content: string}>} messages
- * @param {object} profile
- * @returns {Promise<string>}
- */
 export async function chat(messages, profile) {
     const systemPrompt = buildSystemPrompt(profile)
 
