@@ -1,6 +1,6 @@
 import { env } from '../config/env.js'
+import { GITHUB_API } from '../constants.js'
 
-const GITHUB_API = 'https://api.github.com'
 
 function headers() {
     const h = {

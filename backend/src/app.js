@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import helmet from 'helmet'
 import { env } from './config/env.js'
 import { errorHandler, notFound } from './middleware/errorHandler.js'
 import profileRoute from './routes/profile.js'
@@ -9,6 +10,7 @@ import githubRoute from './routes/github.js'
 export function createApp() {
     const app = express()
 
+    app.use(helmet());
     app.use(
         cors({
             origin: env.FRONTEND_ORIGIN === '*' ? true : env.FRONTEND_ORIGIN.split(',').map((o) => o.trim()),

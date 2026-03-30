@@ -160,19 +160,17 @@ function Section({
   )
 }
 
-// ─── Page ────────────────────────────────────────────────────
 export default function PortfolioPage() {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [githubSummary, setGithubSummary] = useState<GitHubSummary | null>(null)
 
-  // Fetch profile
+
   useEffect(() => {
     apiGet('/api/profile')
       .then((p) => setProfile(p))
       .catch((e) => console.error('Profile fetch error:', e))
   }, [])
 
-  // Fetch GitHub summary once profile loads
   useEffect(() => {
     const handle = profile?.social?.githubHandle || profile?.social?.githubUrl?.split('/').pop()
     if (!handle) return
@@ -190,7 +188,6 @@ export default function PortfolioPage() {
     <div className="portfolio">
       <Hero3D />
 
-      {/* ── Topbar ──────────────────────────────────────── */}
       <header className="topbar">
         <div className="topbar__left">
           <div className="brand">
