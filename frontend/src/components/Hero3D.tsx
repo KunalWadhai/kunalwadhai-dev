@@ -8,7 +8,6 @@ import * as THREE from 'three'
 function Background() {
   const planetRef = useRef<THREE.Mesh | null>(null)
 
-  // Small, subtle animation so the planet feels alive.
   useFrame((_, delta) => {
     if (!planetRef.current) return
     planetRef.current.rotation.y += delta * 0.15
@@ -30,7 +29,6 @@ function Background() {
       <pointLight position={[10, 10, 10]} intensity={1.2} />
       <Stars radius={80} depth={40} count={5000} factor={4} saturation={0} fade />
 
-      {/* Cute planet: smaller + deeper + atmosphere */}
       <group position={[0, -0.6, -4.5]}>
         <mesh ref={planetRef} scale={0.42}>
           <sphereGeometry args={[2.3, 48, 48]} />
@@ -43,7 +41,6 @@ function Background() {
           />
         </mesh>
 
-        {/* Atmosphere glow (additive + transparent) */}
         <mesh scale={0.46}>
           <sphereGeometry args={[2.3, 48, 48]} />
           <meshBasicMaterial
@@ -55,7 +52,6 @@ function Background() {
           />
         </mesh>
 
-        {/* Tiny orbit dots */}
         {orbitDots.map((p, i) => (
           <mesh key={i} position={[p.x * 0.55, p.y * 0.55, p.z * 0.55]}>
             <sphereGeometry args={[0.06, 16, 16]} />
@@ -63,7 +59,6 @@ function Background() {
           </mesh>
         ))}
 
-        {/* Soft ring to make it feel planet-like */}
         <mesh rotation={[Math.PI / 2, 0, 0]} scale={[1.35, 1, 1]}>
           <torusGeometry args={[2.2, 0.06, 16, 80]} />
           <meshBasicMaterial
