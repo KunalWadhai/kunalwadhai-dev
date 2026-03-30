@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { chat } from '../services/llm.service.js'
+import { chat } from '../services/llm.js'
 import { readFileSync } from 'fs'
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'

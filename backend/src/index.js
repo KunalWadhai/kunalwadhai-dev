@@ -5,7 +5,7 @@ import { createApp } from './app.js'
 const app = createApp()
 
 app.listen(env.PORT, () => {
-  console.log(`\n🚀 Portfolio backend running`)
+  console.log(`\n Portfolio backend running`)
   console.log(`   • http://localhost:${env.PORT}/health`)
   console.log(`   • http://localhost:${env.PORT}/api/profile`)
   console.log(`   • http://localhost:${env.PORT}/api/chat  (POST)`)
