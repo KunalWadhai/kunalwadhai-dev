@@ -16,190 +16,174 @@ interface ISpeechRecognition extends EventTarget {
   continuous: boolean;
   interimResults: boolean;
   lang: string;
-  onresult: (event: ISpeechRecognitionEvent) => void;
-  onerror: (event: unknown) => void;
-  onend: () => void;
   start(): void;
   stop(): void;
-}
-
-interface ISpeechRecognitionConstructor {
-  new(): ISpeechRecognition;
+  onresult: ((ev: ISpeechRecognitionEvent) => void) | null;
+  onend: (() => void) | null;
+  onerror: ((ev: Event & { error: string }) => void) | null;
 }
 
 declare global {
   interface Window {
-    SpeechRecognition: ISpeechRecognitionConstructor;
-    webkitSpeechRecognition: ISpeechRecognitionConstructor;
+    SpeechRecognition?: new () => ISpeechRecognition;
+    webkitSpeechRecognition?: new () => ISpeechRecognition;
   }
 }
 
-const SR = typeof window !== 'undefined'
-  ? window.SpeechRecognition || window.webkitSpeechRecognition
-  : null;
-
 const QUICK_PROMPTS = [
-  'Summarise your backend journey',
-  'Tell me about Guestara & Tuya IoT',
-  'What is your best project?',
-  'How can I contact you?',
-  'What tech stack do you use?',
-  'Any open-source work?',
+  'Tell me about yourself',
+  'What technologies do you use?',
+  'Describe your experience',
+  'What projects have you built?',
 ]
-
-const INITIAL_MSG: ChatMessage = {
-  role: 'assistant',
-  content: "Hey! 👋 I'm Kunal's AI assistant. Ask me anything about his skills, experience, projects, or how to reach him.",
-}
 
 export function AIChatWidget() {
   const [open, setOpen] = useState(false)
-  const [messages, setMessages] = useState<ChatMessage[]>([INITIAL_MSG])
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    { role: 'assistant', content: "Hey! I'm Kunal's AI assistant. Ask me anything about his skills, experience, or projects." },
+  ])
   const [input, setInput] = useState('')
-  const [sending, setSending] = useState(false)
-  const [typing, setTyping] = useState(false)
-  const [voiceActive, setVoiceActive] = useState(false)
-  const [ttsEnabled, setTtsEnabled] = useState(true)
-  const [transcript, setTranscript] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [listening, setListening] = useState(false)
+  const [ttsEnabled, setTtsEnabled] = useState(false)
+  const [interimText, setInterimText] = useState('')
 
-  const bottomRef = useRef<HTMLDivElement>(null)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
-  const recogRef = useRef<ISpeechRecognition | null>(null)
+  const recognitionRef = useRef<ISpeechRecognition | null>(null)
+
+  const hasSpeech = useMemo(
+    () => typeof window !== 'undefined' && !!(window.SpeechRecognition || window.webkitSpeechRecognition),
+    []
+  )
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages, typing])
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages, loading])
 
   useEffect(() => {
-    if (open) setTimeout(() => inputRef.current?.focus(), 150)
+    if (open) inputRef.current?.focus()
   }, [open])
 
-  useEffect(() => {
-    function onKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') setOpen(false)
+  // ── Speech-to-Text ───────────────────────────────
+  const toggleListening = useCallback(() => {
+    if (!hasSpeech) return
+
+    if (listening && recognitionRef.current) {
+      recognitionRef.current.stop()
+      setListening(false)
+      setInterimText('')
+      return
     }
-    if (open) window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [open])
 
-  const send = useCallback(async (text: string) => {
-    const trimmed = text.trim()
-    if (!trimmed || sending) return
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition
+    if (!SR) return
+    const sr = new SR()
+    sr.continuous = false
+    sr.interimResults = true
+    sr.lang = 'en-US'
 
-    setSending(true)
-    setTyping(true)
-    const userMsg: ChatMessage = { role: 'user', content: trimmed }
-    const nextMessages = [...messages, userMsg]
-    setMessages(nextMessages)
+    sr.onresult = (ev) => {
+      let final = ''
+      let interim = ''
+      for (let i = 0; i < ev.results.length; i++) {
+        if (ev.results[i].isFinal) {
+          final += ev.results[i][0].transcript
+        } else {
+          interim += ev.results[i][0].transcript
+        }
+      }
+      if (final) {
+        setInput((prev) => prev + final)
+        setInterimText('')
+      } else {
+        setInterimText(interim)
+      }
+    }
+
+    sr.onend = () => {
+      setListening(false)
+      setInterimText('')
+    }
+    sr.onerror = () => {
+      setListening(false)
+      setInterimText('')
+    }
+
+    recognitionRef.current = sr
+    sr.start()
+    setListening(true)
+  }, [hasSpeech, listening])
+
+  // ── TTS ──────────────────────────────────────────
+  const speak = useCallback((text: string) => {
+    if (!ttsEnabled || typeof window === 'undefined' || !window.speechSynthesis) return
+    window.speechSynthesis.cancel()
+    const u = new SpeechSynthesisUtterance(text)
+    u.rate = 1.05
+    u.pitch = 1
+    window.speechSynthesis.speak(u)
+  }, [ttsEnabled])
+
+  // ── Send message ─────────────────────────────────
+  const send = useCallback(async (text?: string) => {
+    const msg = (text || input).trim()
+    if (!msg || loading) return
+
+    const userMsg: ChatMessage = { role: 'user', content: msg }
+    setMessages((prev) => [...prev, userMsg])
     setInput('')
-    setTranscript('')
+    setLoading(true)
 
     try {
-      const history = nextMessages.slice(1).slice(-10).map((m) => ({
+      const history = [...messages, userMsg].map((m) => ({
         role: m.role,
         content: m.content,
       }))
-      const historyWithoutLast = history.slice(0, -1)
 
-      const res = await apiPost('/api/chat', { message: trimmed, history: historyWithoutLast })
-      const answer = String(res?.answer || '').trim() || 'No response.'
+      const data = await apiPost('/api/chat', {
+        message: msg,
+        history,
+      })
 
-      setTyping(false)
-      setMessages((prev) => [...prev, { role: 'assistant', content: answer }])
-
-      // TTS
-      if (ttsEnabled && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel()
-        const utt = new SpeechSynthesisUtterance(answer)
-        utt.rate = 1.05
-        utt.pitch = 1
-        const voices = window.speechSynthesis.getVoices()
-        const preferred = voices.find(
-          (v) => v.lang.startsWith('en') && v.name.toLowerCase().includes('google'),
-        ) || voices.find((v) => v.lang.startsWith('en'))
-        if (preferred) utt.voice = preferred
-        window.speechSynthesis.speak(utt)
-      }
-    } catch {
-      setTyping(false)
+      const reply = data.reply || data.message || 'Sorry, I could not process that.'
+      const assistantMsg: ChatMessage = { role: 'assistant', content: reply }
+      setMessages((prev) => [...prev, assistantMsg])
+      speak(reply)
+    } catch (err: unknown) {
+      console.error('Chat error:', err)
+      const axiosErr = err as { response?: { data?: { reply?: string } } }
+      const fallback = axiosErr?.response?.data?.reply || 'Sorry, something went wrong. Please try again.'
       setMessages((prev) => [
         ...prev,
-        {
-          role: 'assistant',
-          content: "Hmm, I couldn't reach the server right now. Make sure the backend is running at port 4000.",
-        },
+        { role: 'assistant', content: fallback },
       ])
     } finally {
-      setSending(false)
-      inputRef.current?.focus()
+      setLoading(false)
     }
-  }, [messages, sending, ttsEnabled])
-
-  const toggleVoice = useCallback(() => {
-    if (!SR) {
-      alert('Speech recognition is not supported in this browser. Try Chrome.')
-      return
-    }
-
-    if (voiceActive) {
-      recogRef.current?.stop()
-      setVoiceActive(false)
-      return
-    }
-
-    const recog = new SR()
-    recog.continuous = false
-    recog.interimResults = true
-    recog.lang = 'en-US'
-
-    recog.onresult = (event) => {
-      const interim = Array.from(event.results)
-        .map((r) => r[0].transcript)
-        .join('')
-      setTranscript(interim)
-
-      const final = Array.from(event.results)
-        .filter((r) => r.isFinal)
-        .map((r) => r[0].transcript)
-        .join('')
-      if (final) {
-        setVoiceActive(false)
-        send(final)
-      }
-    }
-
-    recog.onerror = () => setVoiceActive(false)
-    recog.onend = () => setVoiceActive(false)
-
-    recogRef.current = recog
-    recog.start()
-    setVoiceActive(true)
-  }, [voiceActive, send])
-
-  const toggleTts = useCallback(() => {
-    if (ttsEnabled) window.speechSynthesis?.cancel()
-    setTtsEnabled((v) => !v)
-  }, [ttsEnabled])
-
-  const quickSend = useCallback((text: string) => send(text), [send])
-
-  const shownQuick = useMemo(
-    () => (messages.length <= 2 ? QUICK_PROMPTS : QUICK_PROMPTS.slice(0, 3)),
-    [messages.length],
-  )
+  }, [input, loading, messages, speak])
 
   return (
     <>
-      <button
-        className="chatFAB"
-        onClick={() => setOpen(true)}
-        aria-label="Open AI Chat"
-        style={{ display: open ? 'none' : undefined }}
-      >
-        <Bot size={26} />
-        <span className="chatFAB__tooltip">Ask me anything</span>
-      </button>
+      {/* ── FAB ─────────────────────────────────────── */}
+      <AnimatePresence>
+        {!open && (
+          <motion.button
+            className="chatFAB"
+            onClick={() => setOpen(true)}
+            initial={{ scale: 0, rotate: -180 }}
+            animate={{ scale: 1, rotate: 0 }}
+            exit={{ scale: 0, rotate: 180 }}
+            transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+            aria-label="Open AI Chat"
+          >
+            <Bot size={26} />
+            <span className="chatFAB__tooltip">Ask me anything</span>
+          </motion.button>
+        )}
+      </AnimatePresence>
 
+      {/* ── Chat Panel ──────────────────────────────── */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -208,36 +192,41 @@ export function AIChatWidget() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            onClick={(e) => { if (e.target === e.currentTarget) setOpen(false) }}
+            onClick={() => setOpen(false)}
           >
             <motion.div
               className="chatModal__panel"
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
-              transition={{ type: 'spring', stiffness: 320, damping: 32 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 30 }}
+              onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
               <div className="chatModal__header">
-                <div className="chatModal__avatar">🤖</div>
+                <div className="chatModal__avatar">
+                  <Bot size={20} />
+                </div>
                 <div className="chatModal__info">
-                  <div className="chatModal__name">Kunal's AI Assistant</div>
-                  <div className="chatModal__status">Online — portfolio-tuned</div>
+                  <div className="chatModal__name">Kunal's AI</div>
+                  <div className="chatModal__status">Online</div>
                 </div>
                 <div className="chatModal__actions">
+                  {hasSpeech && (
+                    <button
+                      className={`iconBtn ${listening ? 'iconBtn--voice-active' : ''}`}
+                      onClick={toggleListening}
+                      title={listening ? 'Stop listening' : 'Voice input'}
+                    >
+                      {listening ? <MicOff size={16} /> : <Mic size={16} />}
+                    </button>
+                  )}
                   <button
                     className={`iconBtn ${ttsEnabled ? 'iconBtn--active' : ''}`}
-                    onClick={toggleTts}
-                    title={ttsEnabled ? 'Mute voice responses' : 'Enable voice responses'}
+                    onClick={() => setTtsEnabled((v) => !v)}
+                    title={ttsEnabled ? 'Mute TTS' : 'Enable TTS'}
                   >
                     {ttsEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
-                  </button>
-                  <button
-                    className={`iconBtn ${voiceActive ? 'iconBtn--voice-active' : ''}`}
-                    onClick={toggleVoice}
-                    title={voiceActive ? 'Stop listening' : 'Ask by voice'}
-                  >
-                    {voiceActive ? <MicOff size={16} /> : <Mic size={16} />}
                   </button>
                   <button className="iconBtn" onClick={() => setOpen(false)} title="Close">
                     <X size={16} />
@@ -246,92 +235,74 @@ export function AIChatWidget() {
               </div>
 
               {/* Messages */}
-              <div className="chatModal__messages" role="log" aria-live="polite">
+              <div className="chatModal__messages">
                 {messages.map((m, i) => (
                   <motion.div
                     key={i}
                     className={`chatMsg chatMsg--${m.role}`}
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.25 }}
                   >
                     <div className="chatMsg__icon">
-                      {m.role === 'assistant' ? <Bot size={16} /> : <User size={14} />}
+                      {m.role === 'assistant' ? <Bot size={14} /> : <User size={14} />}
                     </div>
                     <div className="chatMsg__bubble">{m.content}</div>
                   </motion.div>
                 ))}
 
-                {typing && (
-                  <motion.div
-                    className="chatMsg chatMsg--assistant"
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                  >
-                    <div className="chatMsg__icon"><Bot size={16} /></div>
+                {loading && (
+                  <div className="chatMsg chatMsg--assistant">
+                    <div className="chatMsg__icon">
+                      <Bot size={14} />
+                    </div>
                     <div className="typingIndicator">
                       <span /><span /><span />
                     </div>
-                  </motion.div>
+                  </div>
                 )}
-
-                <div ref={bottomRef} />
+                <div ref={messagesEndRef} />
               </div>
 
-              {/* Voice transcript */}
-              {voiceActive && (
-                <div className="voicePreview">
-                  {transcript || 'Listening…'}
+              {/* Quick prompts  */}
+              {messages.length <= 1 && (
+                <div className="chatModal__quick">
+                  {QUICK_PROMPTS.map((q) => (
+                    <button key={q} className="chip" onClick={() => send(q)}>
+                      {q}
+                    </button>
+                  ))}
                 </div>
               )}
 
-              {/* Quick prompts */}
-              <div className="chatModal__quick">
-                {shownQuick.map((p) => (
-                  <button
-                    key={p}
-                    className="chip"
-                    onClick={() => quickSend(p)}
-                    disabled={sending}
-                    type="button"
-                  >
-                    {p}
-                  </button>
-                ))}
-              </div>
+              {/* Interim voice text */}
+              {interimText && (
+                <div className="voicePreview">{interimText}</div>
+              )}
 
-              {/* Input row */}
+              {/* Input */}
               <div className="chatModal__inputRow">
+                <input
+                  ref={inputRef}
+                  className="chatModal__input"
+                  placeholder="Ask me anything…"
+                  value={input}
+                  disabled={loading}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault()
+                      send()
+                    }
+                  }}
+                />
                 <button
-                  className={`iconBtn ${voiceActive ? 'iconBtn--voice-active' : ''}`}
-                  onClick={toggleVoice}
-                  title={voiceActive ? 'Stop' : 'Voice input'}
-                  type="button"
+                  className="chatModal__sendBtn"
+                  disabled={loading || !input.trim()}
+                  onClick={() => send()}
                 >
-                  {voiceActive ? <MicOff size={16} /> : <Mic size={16} />}
+                  <Send size={18} />
                 </button>
-                <form
-                  style={{ display: 'contents' }}
-                  onSubmit={(e) => { e.preventDefault(); send(input) }}
-                >
-                  <input
-                    ref={inputRef}
-                    className="chatModal__input"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    placeholder={voiceActive ? 'Listening…' : 'Ask anything about Kunal…'}
-                    disabled={sending || voiceActive}
-                    aria-label="Chat input"
-                  />
-                  <button
-                    className="chatModal__sendBtn"
-                    type="submit"
-                    disabled={sending || !input.trim()}
-                    aria-label="Send"
-                  >
-                    <Send size={18} />
-                  </button>
-                </form>
               </div>
             </motion.div>
           </motion.div>

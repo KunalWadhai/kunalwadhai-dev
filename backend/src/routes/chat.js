@@ -32,8 +32,14 @@ router.post('/', async (req, res, next) => {
         ]
 
         const answer = await chat(messages, profile)
-        res.json({ ok: true, answer })
+        res.json({ ok: true, reply: answer })
     } catch (err) {
+        if (err?.status === 429 || err?.message?.includes('429')) {
+            return res.status(429).json({
+                ok: false,
+                reply: "I'm temporarily unavailable due to API quota limits. Please try again later or contact Kunal directly via email or LinkedIn.",
+            })
+        }
         next(err)
     }
 })
