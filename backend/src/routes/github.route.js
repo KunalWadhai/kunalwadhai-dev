@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { getGithubSummary } from '../services/github.js'
+import { getGithubSummary } from '../services/github.service.js'
 
 const router = Router()
 

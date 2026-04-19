@@ -146,17 +146,34 @@ export function AIChatWidget() {
         history,
       })
 
-      const reply = data.reply || data.message || 'Sorry, I could not process that.'
+      // Backend returns { ok: true, reply: string }
+      const reply = data.reply || data.answer || 'Sorry, I could not process that.'
       const assistantMsg: ChatMessage = { role: 'assistant', content: reply }
       setMessages((prev) => [...prev, assistantMsg])
       speak(reply)
     } catch (err: unknown) {
       console.error('Chat error:', err)
-      const axiosErr = err as { response?: { data?: { reply?: string } } }
-      const fallback = axiosErr?.response?.data?.reply || 'Sorry, something went wrong. Please try again.'
+      
+      // Better error message handling
+      let errorMsg = 'Sorry, something went wrong. Please try again.'
+      
+      const axiosErr = err as { response?: { data?: { error?: string; code?: string } } }
+      if (axiosErr?.response?.data?.error) {
+        errorMsg = axiosErr.response.data.error
+      } else if (err instanceof Error) {
+        // If it's a timeout or network error
+        if (err.message?.includes('timeout')) {
+          errorMsg = 'Request timed out. Please try again.'
+        } else if (err.message?.includes('429')) {
+          errorMsg = 'Too many requests. Please wait a moment and try again.'
+        } else if (err.message?.includes('503') || err.message?.includes('502')) {
+          errorMsg = 'AI service is temporarily unavailable. Please try again soon.'
+        }
+      }
+      
       setMessages((prev) => [
         ...prev,
-        { role: 'assistant', content: fallback },
+        { role: 'assistant', content: errorMsg },
       ])
     } finally {
       setLoading(false)
