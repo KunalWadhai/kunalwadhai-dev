@@ -14,6 +14,7 @@ import { apiGet } from './lib/api'
 import { Hero3D } from './components/Hero3D'
 import { AIChatWidget } from './components/AIChatWidget'
 
+// ─── Types matching the updated profile.json ───────────────
 type Achievement = {
   title: string
   points: string[]

@@ -15,7 +15,7 @@ export const chat = async () => {
   const { message } = parsed.data
 
   try {
-    const apiKey = OPENAI_API_KEY
+    const apiKey = process.env.OPENAI_API_KEY
     if (!apiKey) {
       return res.status(500).json({
         error:
@@ -24,7 +24,7 @@ export const chat = async () => {
     }
 
     const openai = new OpenAI({ apiKey })
-    const model = OPENAI_MODEL || 'gpt-4o-mini'
+    const model = process.env.OPENAI_MODEL || 'gpt-4o-mini'
 
     const context = profileToContext(profile)
     const system = [

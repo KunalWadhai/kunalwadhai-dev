@@ -8,6 +8,7 @@ type ChatMessage = {
   content: string
 }
 
+// ─── Web Speech API Types ────────────────────────────────
 interface ISpeechRecognitionEvent extends Event {
   results: SpeechRecognitionResultList;
 }
@@ -52,6 +53,7 @@ const INITIAL_MSG: ChatMessage = {
   content: "Hey! 👋 I'm Kunal's AI assistant. Ask me anything about his skills, experience, projects, or how to reach him.",
 }
 
+// ─── Component ────────────────────────────────────────────
 export function AIChatWidget() {
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState<ChatMessage[]>([INITIAL_MSG])
@@ -66,14 +68,17 @@ export function AIChatWidget() {
   const inputRef = useRef<HTMLInputElement>(null)
   const recogRef = useRef<ISpeechRecognition | null>(null)
 
+  // ── Auto-scroll to bottom ──────────────────────────────
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, typing])
 
+  // ── Focus input when opened ────────────────────────────
   useEffect(() => {
     if (open) setTimeout(() => inputRef.current?.focus(), 150)
   }, [open])
 
+  // ── Escape key closes modal ────────────────────────────
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key === 'Escape') setOpen(false)
@@ -82,6 +87,7 @@ export function AIChatWidget() {
     return () => window.removeEventListener('keydown', onKey)
   }, [open])
 
+  // ── Send message ───────────────────────────────────────
   const send = useCallback(async (text: string) => {
     const trimmed = text.trim()
     if (!trimmed || sending) return
@@ -95,10 +101,12 @@ export function AIChatWidget() {
     setTranscript('')
 
     try {
+      // Build history (exclude initial assistant greeting for cleaner context)
       const history = nextMessages.slice(1).slice(-10).map((m) => ({
         role: m.role,
         content: m.content,
       }))
+      // Last item is the current message — pass as `message`, rest as `history`
       const historyWithoutLast = history.slice(0, -1)
 
       const res = await apiPost('/api/chat', { message: trimmed, history: historyWithoutLast })
@@ -135,6 +143,7 @@ export function AIChatWidget() {
     }
   }, [messages, sending, ttsEnabled])
 
+  // ── Voice input ────────────────────────────────────────
   const toggleVoice = useCallback(() => {
     if (!SR) {
       alert('Speech recognition is not supported in this browser. Try Chrome.')
@@ -190,6 +199,7 @@ export function AIChatWidget() {
 
   return (
     <>
+      {/* ── FAB ──────────────────────────────────────────── */}
       <button
         className="chatFAB"
         onClick={() => setOpen(true)}
@@ -200,6 +210,7 @@ export function AIChatWidget() {
         <span className="chatFAB__tooltip">Ask me anything</span>
       </button>
 
+      {/* ── Full-screen panel ─────────────────────────────── */}
       <AnimatePresence>
         {open && (
           <motion.div

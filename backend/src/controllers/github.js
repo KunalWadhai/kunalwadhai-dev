@@ -5,7 +5,7 @@ export const github = async (req, res) => {
   if (!username) return res.status(400).json({ error: 'Missing username' })
 
   try {
-    const token = GITHUB_TOKEN
+    const token = process.env.GITHUB_TOKEN
     const headers = {
       Accept: 'application/vnd.github+json',
     }
