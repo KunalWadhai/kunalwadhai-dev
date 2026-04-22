@@ -16,7 +16,8 @@ function optional(name, fallback = '') {
 }
 
 // Validate on startup
-const OPENAI_API_KEY = required('OPENAI_API_KEY')
+const LLM_API_KEY = required('LLAMA_OPENAI_KEY')
+const LLM_BASE_URL = required('LLAMA_BASE_URL')
 const PORT = parseInt(optional('PORT', '4000'), 10)
 
 if (isNaN(PORT)) {
@@ -27,8 +28,9 @@ if (isNaN(PORT)) {
 export const env = {
   PORT,
   FRONTEND_ORIGIN: optional('FRONTEND_ORIGIN', 'http://localhost:5173'),
-  OPENAI_API_KEY,
-  OPENAI_MODEL: optional('OPENAI_MODEL', 'gpt-4o-mini'),
+  LLM_API_KEY,
+  LLM_BASE_URL,
+  LLM_MODEL: optional('LLM_MODEL', 'openai/gpt-oss-20b'),
   GITHUB_TOKEN: optional('GITHUB_TOKEN', ''),
   NODE_ENV: optional('NODE_ENV', 'development'),
   LOG_LEVEL: optional('LOG_LEVEL', 'info'),

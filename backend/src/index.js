@@ -9,7 +9,7 @@ const server = app.listen(env.PORT, () => {
   logger.info('🚀 Portfolio Backend Started', {
     port: env.PORT,
     env: env.NODE_ENV,
-    model: env.OPENAI_MODEL,
+    model: env.LLM_MODEL,
   })
   console.log(`\n✓ Backend running on http://localhost:${env.PORT}`)
   console.log(`  • Health: /health`)
