@@ -3,8 +3,9 @@ import { env } from '../config/env.js'
 import { logger } from '../utils/logger.js'
 import { AppError } from '../middleware/errorHandler.js'
 
-const openai = new OpenAI({
-  apiKey: env.OPENAI_API_KEY,
+const llmClient = new OpenAI({
+  apiKey: env.LLM_API_KEY,
+  baseURL: env.LLM_BASE_URL,
   timeout: 30000, // 30 second timeout
 })
 
@@ -81,15 +82,17 @@ export async function chat(messages, profile) {
   const systemPrompt = buildSystemPrompt(profile)
 
   try {
-    logger.debug('Calling OpenAI API', {
-      model: env.OPENAI_MODEL,
+    logger.debug('Calling LLM API', {
+      model: env.LLM_MODEL,
+      baseURL: env.LLM_BASE_URL,
       messageCount: messages.length,
     })
 
-    const completion = await openai.chat.completions.create({
-      model: env.OPENAI_MODEL,
-      max_tokens: 600,
+    const completion = await llmClient.chat.completions.create({
+      model: env.LLM_MODEL,
+      max_tokens: 4096,
       temperature: 0.72,
+      top_p: 1,
       messages: [
         { role: 'system', content: systemPrompt },
         ...messages,
@@ -101,13 +104,13 @@ export async function chat(messages, profile) {
       throw new AppError('LLM returned an empty response', 502, 'LLM_EMPTY_RESPONSE')
     }
 
-    logger.debug('OpenAI API call successful', {
+    logger.debug('LLM API call successful', {
       tokensUsed: completion.usage?.total_tokens,
     })
 
     return answer
   } catch (err) {
-    logger.error('OpenAI API Error', {
+    logger.error('LLM API Error', {
       message: err.message,
       status: err.status,
       type: err.type,
