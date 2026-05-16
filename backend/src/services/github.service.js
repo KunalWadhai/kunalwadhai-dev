@@ -1,11 +1,13 @@
 import { env } from '../config/env.js'
 import { GITHUB_API } from '../constants.js'
+import { AppError } from '../middleware/errorHandler.js'
 
 
 function headers() {
     const h = {
         Accept: 'application/vnd.github+json',
         'X-GitHub-Api-Version': '2022-11-28',
+        'User-Agent': 'portfolio-backend',
     }
     if (env.GITHUB_TOKEN) {
         h['Authorization'] = `Bearer ${env.GITHUB_TOKEN}`
@@ -14,7 +16,7 @@ function headers() {
 }
 
 export async function getGithubSummary(username) {
-    if (!username) throw Object.assign(new Error('username is required'), { status: 400 })
+    if (!username) throw new AppError('username is required', 400, 'USERNAME_REQUIRED')
 
     const [userRes, reposRes] = await Promise.all([
         fetch(`${GITHUB_API}/users/${encodeURIComponent(username)}`, { headers: headers() }),
@@ -22,10 +24,9 @@ export async function getGithubSummary(username) {
     ])
 
     if (!userRes.ok) {
-        throw Object.assign(
-            new Error(`GitHub API error: ${userRes.status} ${userRes.statusText}`),
-            { status: userRes.status === 404 ? 404 : 502 },
-        )
+        const status = userRes.status
+        const message = `GitHub API error: ${status} ${userRes.statusText}`
+        throw new AppError(message, status === 404 ? 404 : 502, 'GITHUB_API_ERROR')
     }
 
     const user = await userRes.json()

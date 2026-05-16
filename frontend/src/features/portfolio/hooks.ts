@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { apiGet } from '../../lib/api'
 import { DEFAULT_PROFILE } from './constants'
-import type { GitHubSummary, Profile } from './types'
+import type { CodingStats, GitHubSummary, Profile } from './types'
 import { deriveGithubHandle } from './utils'
 
 type DataState = 'idle' | 'loading' | 'ready' | 'error'
@@ -9,6 +9,9 @@ type DataState = 'idle' | 'loading' | 'ready' | 'error'
 export function usePortfolioData() {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [githubSummary, setGithubSummary] = useState<GitHubSummary | null>(null)
+  const [codingStats, setCodingStats] = useState<CodingStats | null>(null)
+  const [codingState, setCodingState] = useState<DataState>('idle')
+  const [codingSource, setCodingSource] = useState<'live' | 'snapshot' | 'none'>('none')
   const [state, setState] = useState<DataState>('idle')
 
   useEffect(() => {
@@ -57,7 +60,81 @@ export function usePortfolioData() {
     }
   }, [githubHandle])
 
-  return { data, githubSummary, githubHandle, state }
+  useEffect(() => {
+    let active = true
+    const leetcodeHandle = data.programmingDashboards?.leetcode?.handle
+    if (!leetcodeHandle) {
+      setCodingState('error')
+      setCodingStats(null)
+      setCodingSource('none')
+      return () => {
+        active = false
+      }
+    }
+
+    fetchLeetCodeStats(leetcodeHandle, null, setCodingStats, setCodingState, setCodingSource, active)
+
+    return () => {
+      active = false
+    }
+  }, [data.codingStats, data.programmingDashboards?.leetcode?.handle])
+
+  const refreshCodingStats = async () => {
+    const handle = data.programmingDashboards?.leetcode?.handle
+    if (!handle) return
+    await fetchLeetCodeStats(handle, null, setCodingStats, setCodingState, setCodingSource, true)
+  }
+
+  return { data, githubSummary, githubHandle, codingStats, codingState, codingSource, refreshCodingStats, state }
+}
+
+async function fetchLeetCodeStats(
+  handle: string,
+  fallback: CodingStats | undefined,
+  setStats: (value: CodingStats | null) => void,
+  setState: (value: DataState) => void,
+  setSource: (value: 'live' | 'snapshot' | 'none') => void,
+  active: boolean
+) {
+  if (!active) return
+  setState('loading')
+
+  try {
+    const response = await apiGet(`/api/coding/leetcode?username=${encodeURIComponent(handle)}`)
+    if (!active) return
+    const { ok, ...stats } = response as Record<string, unknown>
+    const payload = stats as CodingStats['leetcode']
+    setStats({ leetcode: payload })
+    setSource('live')
+    setState('ready')
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('leetcode-snapshot', JSON.stringify({ payload, savedAt: new Date().toISOString() }))
+    }
+  } catch {
+    if (!active) return
+    const snapshot = readLeetCodeSnapshot()
+    if (snapshot) {
+      setStats({ leetcode: snapshot })
+      setSource('snapshot')
+      setState('ready')
+      return
+    }
+    setStats(fallback ?? null)
+    setSource(fallback?.leetcode ? 'snapshot' : 'none')
+    setState('error')
+  }
+}
+
+function readLeetCodeSnapshot(): CodingStats['leetcode'] | null {
+  if (typeof window === 'undefined') return null
+  const raw = window.localStorage.getItem('leetcode-snapshot')
+  if (!raw) return null
+  try {
+    const parsed = JSON.parse(raw) as { payload?: CodingStats['leetcode'] }
+    return parsed.payload ?? null
+  } catch {
+    return null
+  }
 }
 
 async function fetchGithubSummary(username: string): Promise<GitHubSummary | null> {

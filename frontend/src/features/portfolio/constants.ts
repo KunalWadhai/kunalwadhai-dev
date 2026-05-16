@@ -4,6 +4,15 @@ export const DEFAULT_PROFILE: Profile = {
   name: 'Kunal Wadhai',
   title: 'Backend Engineer',
   bio: 'Backend Engineer focused on scalable systems, integrations, and production reliability.',
+  location: 'Yavatmal, Maharashtra, India',
+  about: {
+    headline: 'I build backend systems that stay calm under pressure.',
+    summary:
+      'I design pragmatic APIs and integration layers that keep real-world systems in sync. My focus is dependable data flow, observability, and making backend work feel effortless for product teams.',
+    focus: ['Reliable integrations', 'Event-driven sync', 'Production observability'],
+    values: ['Clear APIs', 'Measured reliability', 'Human-readable systems'],
+    approach: ['Async-first debugging', 'Contract-driven integrations', 'Metric-driven deployments'],
+  },
   social: {
     linkedinUrl: 'https://www.linkedin.com/in/kunal-wadhai/',
     githubUrl: 'https://github.com/KunalWadhai',
@@ -17,13 +26,16 @@ export const DEFAULT_PROFILE: Profile = {
       Languages: ['C/C++', 'Python', 'JavaScript', 'Java'],
       'Backend & APIs': ['Node.js', 'Express.js', 'RESTful APIs', 'Microservices'],
       Databases: ['Redis', 'MongoDB', 'Postgres', 'MySQL'],
-      Systems: ['Linux', 'OpenBMC', 'Yocto Project', 'Raspberry Pi'],
+      'Cloud/Observability': ['Amazon CloudWatch', 'Docker', 'GitHub Actions', 'Nginx', 'PM2', 'Webhook monitoring', 'Uptime Kuma'],
+      'AI/Generative AI': ['OpenAI API', 'LangChain', 'RAG pipelines', 'Vector DBs', 'Qdrant', 'Prompt engineering', 'OpenAI SDK'],
+      'Systems & Embedded/Hardware': ['Linux', 'OpenBMC', 'Yocto Project', 'Raspberry Pi'],
     },
   },
   education: [{ cgpa: 8.53 }],
   experience: [
     {
       company: 'Zoho',
+      logoUrl: '/logos/companies/zoho.svg',
       role: 'Firmware Engineering Intern / Project Trainee',
       start: '2025-01',
       end: '2025-04',
@@ -31,6 +43,7 @@ export const DEFAULT_PROFILE: Profile = {
       achievements: [
         {
           title: 'Embedded Systems',
+          metric: '2 embedded platforms',
           points: [
             'Worked with OpenBMC firmware workflows for server hardware management.',
             'Customized and built Yocto-based Linux images for embedded boards.',
@@ -41,6 +54,7 @@ export const DEFAULT_PROFILE: Profile = {
     },
     {
       company: 'Guestara',
+      logoUrl: '/logos/companies/guestara.svg',
       role: 'Backend Engineering Intern -> Full Time',
       start: '2024-11',
       end: 'Present',
@@ -48,6 +62,7 @@ export const DEFAULT_PROFILE: Profile = {
       achievements: [
         {
           title: 'PMS Integrations & Sync',
+          metric: '3 PMS integrations',
           points: [
             'Built PMS integrations with Beds24, Ezee, and Hotelogix.',
             'Maintained real-time booking and room synchronization.',
@@ -69,13 +84,14 @@ export const DEFAULT_PROFILE: Profile = {
   ],
   resume: { pdfUrl: 'https://drive.google.com/uc?export=download&id=17PSerWGj5S0aRT2TZJnEf_FtyOr91hCA' },
   programmingDashboards: {
-    leetcode: { handle: 'lost_war', url: 'https://leetcode.com/u/lost_war/' },
-    hackerrank: { username: 'Kunal_Wadhai', url: 'https://www.hackerrank.com/profile/Kunal_Wadhai' },
-    gfg: { username: 'alone_warrior_11011', url: 'https://www.geeksforgeeks.org/profile/alone_warrior_11011' },
+    leetcode: { handle: 'lost_war', url: 'https://leetcode.com/u/lost_war/', logoUrl: '/logos/platforms/leetcode.svg' },
+    hackerrank: { username: 'Kunal_Wadhai', url: 'https://www.hackerrank.com/profile/Kunal_Wadhai', logoUrl: '/logos/platforms/hackerrank.svg' },
+    gfg: { username: 'alone_warrior_11011', url: 'https://www.geeksforgeeks.org/profile/alone_warrior_11011', logoUrl: '/logos/platforms/gfg.svg' },
   },
 }
 
 export const NAV_ITEMS = [
+  { id: 'about', label: 'About' },
   { id: 'experience', label: 'Experience' },
   { id: 'projects', label: 'Projects' },
   { id: 'skills', label: 'Skills' },
@@ -93,12 +109,21 @@ export const TESTIMONIALS = [
       'Kunal consistently solved integration edge cases under pressure and improved our production reliability with clean backend architecture decisions.',
     author: 'Engineering Lead',
     org: 'Hospitality SaaS',
+    title: 'Engineering Lead',
   },
   {
     quote:
       'Strong systems thinking. He balances delivery speed with maintainability and quickly debugs high-impact incidents in distributed flows.',
     author: 'Product Manager',
     org: 'Guest Operations Platform',
+    title: 'Product Manager',
+  },
+  {
+    quote:
+      'Dependable under pressure. Clear API contracts, fast incident response, and a pragmatic approach to scale.',
+    author: 'Tech Lead',
+    org: 'SaaS Platform',
+    title: 'Tech Lead',
   },
 ]
 
