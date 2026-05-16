@@ -32,7 +32,18 @@ export function usePortfolioData() {
     }
   }, [])
 
-  const data = profile ?? DEFAULT_PROFILE
+  const data = useMemo(() => {
+    const base = profile ?? DEFAULT_PROFILE
+    // Merge frontend-defined projects (e.g. SupportIQ) into API data
+    const apiProjectNames = new Set(base.projects.map(p => p.name.toLowerCase()))
+    const extraProjects = DEFAULT_PROFILE.projects.filter(
+      p => !apiProjectNames.has(p.name.toLowerCase())
+    )
+    if (extraProjects.length > 0) {
+      return { ...base, projects: [...extraProjects, ...base.projects] }
+    }
+    return base
+  }, [profile])
   const githubHandle = useMemo(
     () => deriveGithubHandle(data.social.githubUrl, data.social.githubHandle) || 'KunalWadhai',
     [data.social.githubHandle, data.social.githubUrl]

@@ -1,23 +1,194 @@
-* {
+
+:root {
+  /* ── Palette ── */
+  --bg:            #080810;
+  --bg-elevated:   #0e0e1a;
+  --bg-card:       #111118;
+  --bg-card-hover: #16161f;
+  --text:          #EEEEF5;
+  --text-muted:    #8888A0;
+  --text-dim:      #555570;
+  --accent:        #7C5AFF;
+  --accent-light:  #9B82FF;
+  --accent-glow:   rgba(124, 90, 255, 0.15);
+  --cyan:          #00E5FF;
+  --cyan-glow:     rgba(0, 229, 255, 0.12);
+  --amber:         #FFB800;
+  --green:         #34D399;
+  --border:        rgba(238, 238, 245, 0.07);
+  --border-hover:  rgba(124, 90, 255, 0.25);
+
+  /* ── Typography ── */
+  --font-heading:  'Sora', sans-serif;
+  --font-mono:     'Space Mono', monospace;
+  --font-body:     'DM Sans', sans-serif;
+
+  /* ── Spacing / Radius ── */
+  --radius:        12px;
+  --radius-lg:     16px;
+  --radius-sm:     8px;
+  --max-width:     1200px;
+
+  /* ── Motion ── */
+  --ease:          cubic-bezier(0.25, 0.1, 0.25, 1);
+  --transition:    0.3s var(--ease);
+  --transition-fast: 0.15s ease;
+}
+
+/* ── Reset ── */
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html,
-body,
-#root {
-  min-height: 100%;
-  background: #0b0d10;
-  color: #edf2f7;
-  font-family: 'Kanit', sans-serif;
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
   overflow-x: hidden;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  position: relative;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+input, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* ── Custom Cursor ── */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(124, 90, 255, 0.30);
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform;
+  transition: width 80ms ease, height 80ms ease, background 0.2s ease;
+  mix-blend-mode: screen;
+}
+
+.custom-cursor--hover {
+  width: 48px;
+  height: 48px;
+  background: rgba(124, 90, 255, 0.18);
+}
+
+/* ── Dot Grid Background ── */
+.dot-grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(
+    circle,
+    rgba(238, 238, 245, 0.06) 1px,
+    transparent 1px
+  );
+  background-size: 28px 28px;
+}
+
+/* ── Cursor Glow ── */
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(124, 90, 255, 0.08),
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(124, 90, 255, 0.25);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 90, 255, 0.4);
+}
+
+/* ── Selection ── */
+::selection {
+  background: rgba(124, 90, 255, 0.3);
+  color: #fff;
+}
+
+/* ── Reduced Motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  .custom-cursor,
+  .cursor-glow {
+    display: none;
+  }
+}
+
+/* ── Touch devices: hide custom cursor ── */
+@media (hover: none) and (pointer: coarse) {
+  .custom-cursor,
+  .cursor-glow {
+    display: none;
+  }
 }
