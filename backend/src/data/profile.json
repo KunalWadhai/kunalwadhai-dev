@@ -2,6 +2,25 @@
   "name": "Kunal Wadhai",
   "title": "Backend Engineer",
   "bio": "Backend Engineer passionate about scalable systems, IoT integrations, and building things that work reliably at production scale. Currently at Guestara, where I've shipped integrations with multiple PMS platforms, a smart lock system via Tuya IoT, and data-heavy dashboard APIs.",
+  "about": {
+    "headline": "I build backend systems that stay calm under pressure.",
+    "summary": "I design pragmatic APIs and integration layers that keep real-world systems in sync. My focus is dependable data flow, observability, and making backend work feel effortless for product teams.",
+    "focus": [
+      "Reliable integrations",
+      "Event-driven sync",
+      "Production observability"
+    ],
+    "values": [
+      "Clear APIs",
+      "Measured reliability",
+      "Human-readable systems"
+    ],
+    "approach": [
+      "Async-first debugging",
+      "Contract-driven integrations",
+      "Metric-driven deployments"
+    ]
+  },
   "location": "Yavatmal, Maharashtra, India",
   "social": {
     "linkedinUrl": "https://www.linkedin.com/in/kunal-wadhai/",
@@ -37,11 +56,23 @@
         "SQL"
       ],
       "Cloud/Observability": [
-        "Amazon CloudWatch"
+        "Amazon CloudWatch",
+        "Docker",
+        "GitHub Actions",
+        "Nginx",
+        "PM2",
+        "Webhook monitoring",
+        "Uptime Kuma"
       ],
       "AI/Generative AI": [
         "Generative AI",
-        "OpenAI API"
+        "OpenAI API",
+        "LangChain",
+        "RAG pipelines",
+        "Vector DBs",
+        "Qdrant",
+        "Prompt engineering",
+        "OpenAI SDK"
       ],
       "Systems & Embedded/Hardware": [
         "Raspberry Pi",
@@ -78,6 +109,7 @@
   "experience": [
     {
       "company": "Zoho",
+      "logoUrl": "/logos/companies/zoho.svg",
       "role": "Firmware Engineering Intern / Project Trainee",
       "start": "2025-01",
       "end": "2025-04",
@@ -94,6 +126,7 @@
       "achievements": [
         {
           "title": "Firmware Development on Embedded Platforms",
+          "metric": "2 embedded platforms",
           "points": [
             "Worked on OpenBMC firmware for server hardware management",
             "Built and customized Yocto-based Linux images for Raspberry Pi and BeagleBone Black",
@@ -104,6 +137,7 @@
     },
     {
       "company": "Guestara",
+      "logoUrl": "/logos/companies/guestara.svg",
       "role": "Backend Engineering Intern → Full Time",
       "start": "2024-11",
       "end": "Present",
@@ -136,6 +170,7 @@
       "achievements": [
         {
           "title": "Built integrations with Beds24, Ezee, and Hotelogix",
+          "metric": "3 PMS integrations",
           "points": [
             "Aggregated bookings from multiple PMS sources and OTAs",
             "Maintained real-time room and guest data synchronization",
@@ -203,15 +238,18 @@
   "programmingDashboards": {
     "leetcode": {
       "handle": "lost_war",
-      "url": "https://leetcode.com/u/lost_war/"
+      "url": "https://leetcode.com/u/lost_war/",
+      "logoUrl": "/logos/platforms/leetcode.svg"
     },
     "hackerrank": {
       "username": "Kunal_Wadhai",
-      "url": "https://www.hackerrank.com/profile/Kunal_Wadhai"
+      "url": "https://www.hackerrank.com/profile/Kunal_Wadhai",
+      "logoUrl": "/logos/platforms/hackerrank.svg"
     },
     "gfg": {
       "username": "alone_warrior_11011",
-      "url": "https://www.geeksforgeeks.org/profile/alone_warrior_11011"
+      "url": "https://www.geeksforgeeks.org/profile/alone_warrior_11011",
+      "logoUrl": "/logos/platforms/gfg.svg"
     }
   }
 }
