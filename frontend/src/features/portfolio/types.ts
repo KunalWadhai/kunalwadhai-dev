@@ -66,3 +66,54 @@ export type ChatMessage = {
   role: 'user' | 'assistant'
   content: string
 }
+
+export type LeetCodeSolved = {
+  total: number
+  easy: number
+  medium: number
+  hard: number
+}
+
+export type LeetCodeContest = {
+  rating: number
+  globalRanking: number | null
+  topPercentage: number | null
+  attendedContestsCount: number
+}
+
+export type LeetCodeContestEntry = {
+  title: string
+  startTime: number
+  rating: number
+  ranking: number | null
+  trend: string | null
+}
+
+export type LeetCodeActivityDay = {
+  date: string
+  count: number
+}
+
+export type LeetCodeStats = {
+  handle: string
+  profileUrl: string
+  solved: LeetCodeSolved
+  ranking: number | null
+  reputation: number
+  starRating: number | null
+  streak: number
+  totalActiveDays: number
+  activeYears: number[]
+  contest: LeetCodeContest
+  contestHistory: LeetCodeContestEntry[]
+  activity: LeetCodeActivityDay[]
+  fetchedAt: string
+}
+
+export type CodingPlatform = {
+  id: 'leetcode' | 'hackerrank' | 'gfg'
+  label: string
+  handle: string
+  url: string
+  accent: string
+}

@@ -9,6 +9,7 @@ import { logger } from './utils/logger.js'
 import profileRoute from './routes/profile.route.js'
 import chatRoute from './routes/chat.route.js'
 import githubRoute from './routes/github.route.js'
+import leetcodeRoute from './routes/leetcode.route.js'
 
 export function createApp() {
   const app = express()
@@ -70,6 +71,7 @@ export function createApp() {
   app.use('/api/profile', profileRoute)
   app.use('/api/chat', chatLimiter, chatRoute)
   app.use('/api/github', githubRoute)
+  app.use('/api/leetcode', leetcodeRoute)
 
   // 404 handler
   app.use(notFound)
