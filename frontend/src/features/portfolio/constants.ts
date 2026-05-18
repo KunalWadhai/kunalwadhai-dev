@@ -85,6 +85,8 @@ export const NAV_ITEMS = [
   { id: 'about', label: 'About' },
   { id: 'experience', label: 'Experience' },
   { id: 'projects', label: 'Projects' },
+  { id: 'github', label: 'GitHub' },
+  { id: 'coding', label: 'Coding' },
   { id: 'skills', label: 'Skills' },
   { id: 'contact', label: 'Contact' },
 ] as const
@@ -112,7 +114,24 @@ export const SKILLS_DATA = {
   ],
 } as const
 
-export const LEARNING_ITEMS = ['Genrative AI', 'Large Language Models', 'MCP Protocol'] as const
+export const LEARNING_ITEMS = ['Generative AI', 'Large Language Models', 'MCP Protocol'] as const
+
+export const TECH_MARQUEE = [
+  'Node.js',
+  'TypeScript',
+  'PostgreSQL',
+  'Redis',
+  'Docker',
+  'AWS',
+  'Express',
+  'FastAPI',
+  'Kafka',
+  'Microservices',
+  'LangChain',
+  'BullMQ',
+] as const
+
+export const NAV_SECTION_IDS = NAV_ITEMS.map((n) => n.id)
 
 export const TESTIMONIALS = [
   {
