@@ -31,6 +31,50 @@
 
 ---
 
+## Phase 2: Foundations (Complete)
+**Date:** September 20, 2026  
+**Status:** Foundations complete — ready for Phase 3 (home page sections)
+
+### Completed
+- ✅ Token system (`tokens-v2.css`): dark-only, muted slate-blue accent, fluid type scale, 2-4px radius
+- ✅ Global CSS (`global-v2.css`): reset, primitives, 12-col asymmetric grid, utilities
+- ✅ IBM Plex Sans + Mono fonts installed (@fontsource, self-hosted)
+- ✅ Background grid component (64px grid + structural rails, respects reduced motion)
+- ✅ Registration mark component (9×9px "+")
+- ✅ Content structure created (`src/content/`):
+  - `profile.ts`: Name, headline (option 1), bio, social, resume
+  - `facts.ts`: 6 measured outcomes with case-study links
+  - `experience.ts`: 3 entries with ownership-area groupings (2 Guestara + Zoho)
+  - `case-studies.ts`: 5 complete case studies with fixed structure
+
+### Key Deliverables
+**Token system:**
+- Colors: `--bg-base` #0F1216, `--accent` #8AA4C0, status colors for diagrams only
+- Typography: IBM Plex Sans (400/500/600), IBM Plex Mono (400/600), fluid clamp()
+- Spacing: 8px base (4-160px scale)
+- Radius: 2px chips, 4px panels (no higher)
+- No shadows anywhere
+
+**Content bank (verified against résumé):**
+- Experience: Two separate Guestara roles (intern Nov 2025–Jan 2026, full-time Feb 2026–present)
+- Facts ledger: 100+ properties, 5,000+ events, 99.2% delivery, 99.8% sync, 10+ services, 50% latency
+- Case studies: Smart-lock provisioning, Mews webhook, State machine, Health tracing, Shared library
+- Ownership areas: Integration platform, IoT access, Domain modeling, Reliability, Frontend (per brief Section 3)
+
+**TODO markers for confirmation:**
+- Frontend scope: BFF layer + React settings-page work (lines marked in `experience.ts`)
+- ECB wording: "per vendor API requirements" (used in smart-lock case study)
+- 10 of 416 vs 85%: Treated as two separate facts (by count vs by size)
+
+### Output
+- `frontend/src/styles/tokens-v2.css` — design token definitions
+- `frontend/src/styles/global-v2.css` — reset, primitives, utilities
+- `frontend/src/components/layout/BackgroundGrid.tsx` — grid + rails
+- `frontend/src/components/layout/RegistrationMark.tsx` — intersection marks
+- `frontend/src/content/*.ts` — 4 content files (profile, facts, experience, case-studies)
+
+---
+
 ## Phase 1: Design Plan (Complete — Awaiting Approval)
 **Date:** September 20, 2026  
 **Status:** Design plan complete, awaiting Kunal's approval before Phase 2
@@ -112,6 +156,14 @@
 - `docs/AUDIT.md` — Phase 0 comprehensive audit
 - `docs/DESIGN_PLAN.md` — Phase 1 design specification
 - `docs/REDESIGN_NOTES.md` — this file (running log)
+- `frontend/src/styles/tokens-v2.css` — design tokens
+- `frontend/src/styles/global-v2.css` — global CSS
+- `frontend/src/components/layout/BackgroundGrid.tsx` — grid + rails
+- `frontend/src/components/layout/RegistrationMark.tsx` — registration marks
+- `frontend/src/content/profile.ts` — profile content
+- `frontend/src/content/facts.ts` — facts ledger
+- `frontend/src/content/experience.ts` — experience timeline
+- `frontend/src/content/case-studies.ts` — 5 case studies
 
 ### Modified
 - (none yet)
