@@ -31,16 +31,40 @@
 
 ---
 
-## Phase 1: Design Plan (In Progress)
-**Status:** Not started — awaiting audit approval
+## Phase 1: Design Plan (Complete — Awaiting Approval)
+**Date:** September 20, 2026  
+**Status:** Design plan complete, awaiting Kunal's approval before Phase 2
 
-### Planned Deliverables
-- `docs/DESIGN_PLAN.md` with:
-  1. Refined token system (colors, type scale, spacing)
-  2. ASCII wireframes (desktop + mobile) for each section
-  3. Information architecture and route map
-  4. Diagram inventory (platform map + 5 case-study diagrams)
-  5. Self-review against Section 8 blocklist
+### Completed
+- ✅ Refined token system (dark-only, muted slate-blue accent, 2-4px radius, no shadows)
+- ✅ Typography spec (IBM Plex Sans + Mono, fluid clamp() scale, tabular numerals)
+- ✅ ASCII wireframes (hero, work, experience, skills, case-study pages, desktop + mobile)
+- ✅ Information architecture (7 routes: home + 5 case studies + 404)
+- ✅ Diagram inventory (platform map + 5 case-study flows with interaction specs)
+- ✅ Self-review against Section 8 blocklist (13 avoided, 3 scrutinized/justified, 5 refined)
+
+### Key Design Decisions
+1. **Asymmetric layout:** 3-col sticky titles + 9-col content (desktop), not centered
+2. **Blueprint aesthetic:** 64px grid, structural rails, registration marks, drafting-board feel
+3. **Platform map:** Interactive 6-layer system diagram in hero (one draw-in, then still)
+4. **Facts ledger:** Definition list of measured outcomes, not gradient cards
+5. **Case studies:** Horizontal rows (not cards), 5 standalone pages with fixed structure
+6. **Experience:** Vertical timeline with ownership-area disclosures (A/B/C/D/E grouping)
+7. **Skills:** Capability matrix with demo-linked chips, not logo cloud
+8. **One accent:** Muted slate-blue (#8AA4C0), status colors only in diagrams
+9. **Motion policy:** Platform map draw-in (900ms) on load, then stillness
+
+### Output
+- `docs/DESIGN_PLAN.md` — comprehensive design specification with wireframes and diagrams
+
+### Awaiting Confirmation Before Phase 2
+1. **Headline choice:** Brief offers 3 candidates (Section 2) — which one, or suggest refinement?
+2. **Unconfirmed diagram components:**
+   - BFF layer (Express, TypeScript, Zod, Axios, AWS Lambda) — confirm scope
+   - React settings-page work — confirm scope
+   - ECB encryption mode — confirm "per vendor API requirements" wording
+   - 10 of 416 vs 85% — confirm these are two separate facts (by count vs by size)
+3. **Wireframe feedback:** Any sections that don't match your mental model?
 
 ---
 
@@ -86,6 +110,7 @@
 
 ### Created
 - `docs/AUDIT.md` — Phase 0 comprehensive audit
+- `docs/DESIGN_PLAN.md` — Phase 1 design specification
 - `docs/REDESIGN_NOTES.md` — this file (running log)
 
 ### Modified
