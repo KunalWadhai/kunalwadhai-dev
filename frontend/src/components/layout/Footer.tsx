@@ -1,58 +1,51 @@
-import { ArrowUp } from 'lucide-react'
+/**
+ * Footer — Name, year, tech stack
+ * Nothing else per brief Section 7.8
+ */
 
-export interface FooterProps {
-  readonly onScrollTop: () => void
-}
+import { profile } from '../../content/profile'
 
-export function Footer({ onScrollTop }: FooterProps) {
+export function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="footer" role="contentinfo">
-      <div className="footer__inner">
-        <div className="footer__left">
-          <span className="footer__name">Kunal Wadhai</span>
-          <span className="footer__meta">
-            © {year} · Built with React + TypeScript
-          </span>
-        </div>
-
-        <div className="footer__right">
-          <a
-            href="https://github.com/KunalWadhai"
-            target="_blank"
-            rel="noreferrer"
-            className="footer__link"
-            aria-label="GitHub"
-          >
-            GitHub
-          </a>
-          <a
-            href="https://www.linkedin.com/in/kunal-wadhai/"
-            target="_blank"
-            rel="noreferrer"
-            className="footer__link"
-            aria-label="LinkedIn"
-          >
-            LinkedIn
-          </a>
-          <a
-            href="mailto:kunalwadhai456@gmail.com"
-            className="footer__link"
-            aria-label="Email"
-          >
-            Email
-          </a>
-          <button
-            type="button"
-            className="footer__top-btn"
-            onClick={onScrollTop}
-            aria-label="Back to top"
-          >
-            <ArrowUp size={15} aria-hidden="true" />
-          </button>
+    <footer className="footer">
+      <div className="container">
+        <div className="footer__content">
+          <p className="footer__text">
+            {profile.name} · {year}
+          </p>
+          <p className="footer__tech">
+            Built with React and TypeScript
+          </p>
         </div>
       </div>
+
+      <style>{`
+        .footer {
+          padding-block: var(--space-10);
+          border-top: 1px solid var(--line-subtle);
+          margin-top: var(--space-16);
+        }
+
+        .footer__content {
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-2);
+          align-items: center;
+          text-align: center;
+        }
+
+        .footer__text,
+        .footer__tech {
+          font-size: var(--text-sm);
+          color: var(--text-secondary);
+        }
+
+        .footer__tech {
+          font-family: var(--font-mono);
+        }
+      `}</style>
     </footer>
   )
 }
