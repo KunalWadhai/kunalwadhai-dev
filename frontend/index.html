@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Primary meta -->
-    <title>Kunal Wadhai — Backend Engineer</title>
-    <meta name="description" content="Kunal Wadhai is a Backend Engineer building production APIs, PMS integrations, and distributed systems with TypeScript, Node.js and AWS." />
+    <title>Kunal Wadhai — Backend-First Full-Stack Engineer</title>
+    <meta name="description" content="Backend-first full-stack engineer who owns production systems end to end. Platform ownership: 100+ properties, 10+ services, PMS integrations, IoT provisioning, real-time booking sync." />
     <meta name="author" content="Kunal Wadhai" />
     <meta name="robots" content="index, follow" />
     <meta name="keywords" content="Kunal Wadhai, Backend Engineer, Node.js, TypeScript, PostgreSQL, Redis, AWS, REST APIs, distributed systems" />
@@ -20,8 +20,8 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Kunal Wadhai" />
-    <meta property="og:title" content="Kunal Wadhai — Backend Engineer" />
-    <meta property="og:description" content="Building production APIs, PMS integrations, and distributed systems with TypeScript, Node.js and AWS." />
+    <meta property="og:title" content="Kunal Wadhai — Backend-First Full-Stack Engineer" />
+    <meta property="og:description" content="Backend-first full-stack engineer who owns production systems end to end. 100+ properties, 10+ services, 99.2% PIN delivery, 99.8% sync accuracy." />
     <meta property="og:url" content="https://www.kunalwadhaidev.me/" />
     <meta property="og:image" content="https://www.kunalwadhaidev.me/og-image.png" />
     <meta property="og:image:width" content="1200" />
@@ -32,17 +32,11 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@AloneWarrior27" />
     <meta name="twitter:creator" content="@AloneWarrior27" />
-    <meta name="twitter:title" content="Kunal Wadhai — Backend Engineer" />
-    <meta name="twitter:description" content="Building production APIs, PMS integrations, and distributed systems with TypeScript, Node.js and AWS." />
+    <meta name="twitter:title" content="Kunal Wadhai — Backend-First Full-Stack Engineer" />
+    <meta name="twitter:description" content="Backend-first full-stack engineer who owns production systems end to end. 100+ properties, 10+ services, PMS integrations, IoT provisioning." />
     <meta name="twitter:image" content="https://www.kunalwadhaidev.me/og-image.png" />
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Fonts: IBM Plex Sans + Mono (self-hosted via @fontsource, loaded in main-v2.tsx) -->
 
     <!-- Structured data: Person -->
     <script type="application/ld+json">
@@ -51,8 +45,8 @@
         "@type": "Person",
         "name": "Kunal Wadhai",
         "url": "https://www.kunalwadhaidev.me/",
-        "jobTitle": "Backend Engineer",
-        "description": "Backend Engineer building production APIs, PMS integrations, and distributed systems with TypeScript, Node.js and AWS.",
+        "jobTitle": "Backend Engineer (Full-Stack)",
+        "description": "Backend-first full-stack engineer who owns production systems end to end. Platform ownership: 100+ properties, 10+ services, PMS integrations, IoT provisioning, real-time booking sync.",
         "email": "mailto:kunalwadhai456@gmail.com",
         "address": {
           "@type": "PostalAddress",
@@ -83,7 +77,7 @@
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "name": "Kunal Wadhai — Backend Engineer",
+        "name": "Kunal Wadhai — Backend-First Full-Stack Engineer",
         "url": "https://www.kunalwadhaidev.me/",
         "author": {
           "@type": "Person",
@@ -92,18 +86,10 @@
       }
     </script>
 
-    <!-- Prevent theme flash -->
-    <script>
-      (function () {
-        var stored = localStorage.getItem('theme');
-        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        var theme = stored || (prefersDark ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', theme);
-      })();
-    </script>
+    <!-- Dark-only theme (no toggle per brief) -->
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/src/main-v2.tsx"></script>
   </body>
 </html>
