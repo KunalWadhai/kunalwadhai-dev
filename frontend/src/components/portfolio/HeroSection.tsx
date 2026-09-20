@@ -1,117 +1,133 @@
 import { motion } from 'framer-motion'
-import { ArrowUpRight, Download } from 'lucide-react'
+import { ArrowUpRight, Github, Linkedin, MapPin } from 'lucide-react'
 import type { Profile } from '../../features/portfolio/types'
-import { Terminal } from './Terminal'
 
 export interface HeroSectionProps {
   readonly data: Profile
   readonly dataState: 'idle' | 'loading' | 'ready' | 'error'
 }
 
-const HERO_WORDS = ['Systems', 'that', 'scale.', 'Ship', 'with', 'confidence.']
-
 export function HeroSection({ data, dataState }: HeroSectionProps) {
   return (
     <section className="hero" aria-label="Introduction">
-      <div className="hero__grid">
-        <div className="hero__content">
-          <motion.div
-            className="hero__pill"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <span className="hero__pill-dot" aria-hidden="true" />
-            Available for freelance · Backend Engineer
-          </motion.div>
-
-          <motion.p
-            className="hero__eyebrow"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            {data.title} · Guestara
-          </motion.p>
-
-          <h1 className="hero__title">
-            {HERO_WORDS.map((word, i) => (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0, y: 32 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.55, delay: 0.2 + i * 0.07, ease: [0.22, 1, 0.36, 1] }}
-              >
-                {word}
-              </motion.span>
-            ))}
-          </h1>
-
-          <motion.p
-            className="hero__sub"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.75 }}
-          >
-            {data.bio ||
-              'Distributed architecture, high-throughput APIs, and production systems that stay calm under load.'}
-          </motion.p>
-
-          {dataState === 'error' && (
-            <p className="hero__notice">Showing cached profile — API unreachable.</p>
-          )}
-
-          <motion.div
-            className="hero__ctas"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.95 }}
-          >
-            <a className="btn btn--primary" href="#projects" data-hover>
-              View selected work
-            </a>
-            <a
-              className="btn btn--ghost"
-              href={data.resume.pdfUrl}
-              target="_blank"
-              rel="noreferrer"
-              data-hover
-            >
-              <Download size={16} />
-              Resume
-              <ArrowUpRight size={14} />
-            </a>
-          </motion.div>
-
-          <motion.ul
-            className="hero__metrics"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.1, duration: 0.5 }}
-          >
-            <li>
-              <strong>99.98%</strong>
-              <span>uptime mindset</span>
-            </li>
-            <li>
-              <strong>&lt;15ms</strong>
-              <span>p95 API targets</span>
-            </li>
-            <li>
-              <strong>24/7</strong>
-              <span>on-call ready</span>
-            </li>
-          </motion.ul>
-        </div>
-
+      <div className="hero__inner">
+        {/* Availability badge */}
         <motion.div
-          className="hero__visual"
-          initial={{ opacity: 0, x: 40, scale: 0.98 }}
-          animate={{ opacity: 1, x: 0, scale: 1 }}
-          transition={{ duration: 0.85, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          className="hero__badge"
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
         >
-          <Terminal />
+          <span className="hero__badge-dot" aria-hidden="true" />
+          Open to software engineering opportunities
         </motion.div>
+
+        {/* Name */}
+        <motion.h1
+          className="hero__name"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.1 }}
+        >
+          {data.name}
+        </motion.h1>
+
+        {/* Title */}
+        <motion.p
+          className="hero__title"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.18 }}
+        >
+          {data.title}
+        </motion.p>
+
+        {/* Bio */}
+        <motion.p
+          className="hero__bio"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.26 }}
+        >
+          I build production backend systems, APIs, integrations and infrastructure with TypeScript,
+          Node.js and AWS. Currently at{' '}
+          <a
+            href="https://guestara.com"
+            target="_blank"
+            rel="noreferrer"
+            className="hero__company-link"
+          >
+            Guestara
+          </a>
+          , working on PMS integrations, IoT systems and real-time booking sync.
+        </motion.p>
+
+        {dataState === 'error' && (
+          <p className="hero__notice" role="status">
+            Showing cached data — API unreachable.
+          </p>
+        )}
+
+        {/* CTAs */}
+        <motion.div
+          className="hero__ctas"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.34 }}
+        >
+          <a className="btn btn--primary" href="#projects">
+            View work
+          </a>
+          <a
+            className="btn btn--ghost"
+            href={data.resume.pdfUrl}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Download resume PDF"
+          >
+            Resume <ArrowUpRight size={14} aria-hidden="true" />
+          </a>
+        </motion.div>
+
+        {/* Social links */}
+        <motion.div
+          className="hero__social"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.42 }}
+        >
+          <a
+            href={data.social.githubUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="hero__social-link"
+            aria-label="GitHub profile"
+          >
+            <Github size={16} aria-hidden="true" />
+            GitHub
+          </a>
+          <a
+            href={data.social.linkedinUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="hero__social-link"
+            aria-label="LinkedIn profile"
+          >
+            <Linkedin size={16} aria-hidden="true" />
+            LinkedIn
+          </a>
+        </motion.div>
+
+        {/* Location */}
+        <motion.p
+          className="hero__location"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.5 }}
+        >
+          <MapPin size={13} aria-hidden="true" />
+          India
+        </motion.p>
       </div>
     </section>
   )

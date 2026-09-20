@@ -13,7 +13,7 @@ export function usePortfolioData() {
 
   useEffect(() => {
     let active = true
-    setState('loading')
+    Promise.resolve().then(() => setState('loading'))
 
     apiGet('/api/profile')
       .then((response) => {

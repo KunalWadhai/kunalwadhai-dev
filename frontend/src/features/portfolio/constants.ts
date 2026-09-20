@@ -3,20 +3,20 @@ import type { Profile } from './types'
 export const DEFAULT_PROFILE: Profile = {
   name: 'Kunal Wadhai',
   title: 'Backend Engineer',
-  bio: 'Specializing in distributed architecture, high-throughput APIs, and the invisible infrastructure behind great products.',
+  bio: 'I build production backend systems, APIs, integrations and infrastructure with TypeScript, Node.js and AWS.',
   social: {
     linkedinUrl: 'https://www.linkedin.com/in/kunal-wadhai/',
     githubUrl: 'https://github.com/KunalWadhai',
     githubHandle: 'KunalWadhai',
-    leetcodeUrl: 'https://leetcode.com/u/lost_war/',
+    leetcodeUrl: 'https://leetcode.com/u/KunalWadhai11011/',
     xUrl: 'https://x.com/AloneWarrior27',
     email: 'kunalwadhai456@gmail.com',
   },
   skills: {
     groups: {
-      'Core Backend': ['Node.js', 'TypeScript', 'Express', 'FastAPI'],
-      'Data & Infra': ['PostgreSQL', 'Redis', 'Docker', 'AWS', 'Kafka'],
-      'Tooling & Practice': ['Git', 'CI/CD', 'REST', 'GraphQL', 'Microservices'],
+      Backend: ['Node.js', 'TypeScript', 'Express', 'REST APIs', 'Microservices'],
+      Data: ['PostgreSQL', 'MongoDB', 'MySQL', 'Redis'],
+      Infrastructure: ['AWS', 'Docker', 'CI/CD', 'CloudWatch', 'Linux'],
     },
   },
   education: [{ cgpa: 8.53 }],
@@ -26,15 +26,17 @@ export const DEFAULT_PROFILE: Profile = {
       role: 'Backend Engineer',
       start: '2024-11',
       end: 'Present',
-      technologies: ['Node.js', 'Express.js', 'Redis', 'Postgres', 'MongoDB', 'CloudWatch'],
+      technologies: ['Node.js', 'TypeScript', 'Redis', 'PostgreSQL', 'MongoDB', 'AWS SQS', 'CloudWatch'],
       achievements: [
         {
-          title: 'PMS Integrations & Sync',
+          title: '',
           points: [
-            'Built PMS integrations with Beds24, Ezee, and Hotelogix for real-time booking sync.',
-            'Maintained real-time booking and room synchronization across distributed systems.',
-            'Resolved critical production sync issues and booking mismatches under SLA.',
-            'Built Tuya smart-lock passcode generation and lifecycle orchestration.',
+            'Built PMS integrations with Beds24, Ezee, and Hotelogix, aggregating bookings from multiple OTAs into a unified booking layer with real-time room and guest sync.',
+            'Engineered automated room allocation for Beds24 that selects optimal rooms based on availability and booking constraints, eliminating manual assignment overhead.',
+            'Developed a financial sync pipeline with Hotelogix to propagate upsell and payment data, ensuring consistency between the property system and the Guestara platform.',
+            'Designed a Tuya IoT smart lock system that generates time-bound digital passcodes and manages device lifecycle via Pulsar event streaming, triggered by the booking flow.',
+            'Built data-heavy dashboard APIs unifying guest, booking, payment and occupancy data for real-time operational views.',
+            'Implemented Redis-backed rolling-window monitoring for critical APIs with threshold-based alerting, reducing mean time to detect recurring production failures.',
           ],
         },
       ],
@@ -44,14 +46,14 @@ export const DEFAULT_PROFILE: Profile = {
       role: 'Firmware Engineering Intern',
       start: '2025-01',
       end: '2025-04',
-      technologies: ['Linux', 'Shell Scripting', 'Yocto Project', 'OpenBMC', 'Raspberry Pi'],
+      technologies: ['Linux', 'Shell Scripting', 'C', 'Yocto Project', 'OpenBMC', 'Raspberry Pi', 'BeagleBone Black'],
       achievements: [
         {
-          title: 'Embedded Systems',
+          title: '',
           points: [
-            'Worked with OpenBMC firmware workflows for server hardware management.',
-            'Customized and built Yocto-based Linux images for embedded boards.',
-            'Automated firmware build/deploy operations using shell scripts.',
+            'Worked on OpenBMC firmware for server hardware management, gaining hands-on exposure to IPMI and BMC lifecycle workflows.',
+            'Built and customized Yocto-based Linux images for Raspberry Pi and BeagleBone Black, managing layer configuration and cross-compilation.',
+            'Automated firmware build and deployment operations with shell scripts, cutting manual build steps from the pipeline.',
           ],
         },
       ],
@@ -62,20 +64,22 @@ export const DEFAULT_PROFILE: Profile = {
       name: 'SupportIQ AI',
       url: '',
       githubUrl: 'https://github.com/KunalWadhai/SupportIQ.ai',
-      description: 'RAG-powered customer support platform — upload docs, get an embeddable AI chat widget, resolve 80% of support tickets automatically. Full microservices architecture with per-org data isolation.',
-      technologies: ['Next.js 14', 'TypeScript', 'FastAPI', 'LangChain', 'PostgreSQL', 'Qdrant', 'Redis', 'Docker'],
+      description:
+        'RAG-powered customer support platform. Organizations upload documentation; the system generates an embeddable chat widget backed by a vector search pipeline that resolves support queries without human escalation. Built on a microservices architecture with per-org data isolation.',
+      technologies: ['Next.js 14', 'TypeScript', 'FastAPI', 'LangChain', 'PostgreSQL', 'Qdrant', 'Redis', 'Docker', 'BullMQ'],
     },
     {
       name: 'foodSnatch',
       url: 'https://foodsnatch.onrender.com',
       githubUrl: 'https://github.com/KunalWadhai/foodSnatch',
-      description: 'Short-video food reels platform — food partners upload video reels via ImageKit, users browse a TikTok-style feed with like/save. JWT auth with HTTP-only cookies, separate partner & user flows, Dockerized deployment.',
-      technologies: ['React', 'Node.js', 'Express', 'MongoDB', 'ImageKit', 'Docker'],
+      description:
+        'Short-video food reel platform. Food partners upload video content via ImageKit CDN; users browse a TikTok-style feed with likes and saves. Implements separate partner and user JWT auth flows, HTTP-only cookie sessions, and Dockerized deployment on Render.',
+      technologies: ['React', 'Node.js', 'Express', 'MongoDB', 'ImageKit', 'Docker', 'JWT'],
     },
   ],
   resume: { pdfUrl: 'https://drive.google.com/uc?export=download&id=17PSerWGj5S0aRT2TZJnEf_FtyOr91hCA' },
   programmingDashboards: {
-    leetcode: { handle: 'lost_war', url: 'https://leetcode.com/u/lost_war/' },
+    leetcode: { handle: 'KunalWadhai11011', url: 'https://leetcode.com/u/KunalWadhai11011/' },
     hackerrank: { username: 'Kunal_Wadhai', url: 'https://www.hackerrank.com/profile/Kunal_Wadhai' },
     gfg: { username: 'alone_warrior_11011', url: 'https://www.geeksforgeeks.org/profile/alone_warrior_11011' },
   },
@@ -84,107 +88,42 @@ export const DEFAULT_PROFILE: Profile = {
 export const NAV_ITEMS = [
   { id: 'about', label: 'About' },
   { id: 'experience', label: 'Experience' },
-  { id: 'projects', label: 'Projects' },
+  { id: 'projects', label: 'Work' },
+  { id: 'skills', label: 'Skills' },
   { id: 'github', label: 'GitHub' },
   { id: 'coding', label: 'Coding' },
-  { id: 'skills', label: 'Skills' },
   { id: 'contact', label: 'Contact' },
-] as const
-
-export const SKILLS_DATA = {
-  'Core Backend': [
-    { name: 'Node.js', level: 3 },
-    { name: 'TypeScript', level: 3 },
-    { name: 'Express', level: 3 },
-    { name: 'FastAPI', level: 2 },
-  ],
-  'Data & Infra': [
-    { name: 'PostgreSQL', level: 3 },
-    { name: 'Redis', level: 3 },
-    { name: 'Docker', level: 2 },
-    { name: 'AWS', level: 2 },
-    { name: 'Kafka', level: 1 },
-  ],
-  'Tooling & Practice': [
-    { name: 'Git', level: 3 },
-    { name: 'CI/CD', level: 2 },
-    { name: 'REST', level: 3 },
-    { name: 'GraphQL', level: 2 },
-    { name: 'Microservices', level: 2 },
-  ],
-} as const
-
-export const LEARNING_ITEMS = ['Generative AI', 'Large Language Models', 'MCP Protocol'] as const
-
-export const TECH_MARQUEE = [
-  'Node.js',
-  'TypeScript',
-  'PostgreSQL',
-  'Redis',
-  'Docker',
-  'AWS',
-  'Express',
-  'FastAPI',
-  'Kafka',
-  'Microservices',
-  'LangChain',
-  'BullMQ',
 ] as const
 
 export const NAV_SECTION_IDS = NAV_ITEMS.map((n) => n.id)
 
-export const TESTIMONIALS = [
-  {
-    quote: 'Kunal consistently solved integration edge cases under pressure and improved our production reliability with clean backend architecture decisions.',
-    author: 'Engineering Lead',
-    org: 'Hospitality SaaS',
+/** Per-project engineering metadata (role, key areas) */
+export const PROJECT_META: Record<string, { role: string; areas: string[] }> = {
+  'SupportIQ AI': {
+    role: 'Full-stack',
+    areas: ['API design', 'RAG pipeline', 'Vector search', 'Queue processing', 'Multi-tenancy'],
   },
-  {
-    quote: 'Strong systems thinking. He balances delivery speed with maintainability and quickly debugs high-impact incidents in distributed flows.',
-    author: 'Product Manager',
-    org: 'Guest Operations Platform',
+  'foodSnatch': {
+    role: 'Full-stack',
+    areas: ['Authentication', 'Media pipeline', 'Feed API', 'Data modeling', 'Containerisation'],
   },
-]
-
-export const TERMINAL_LINES = [
-  { text: '$ node server.ts', type: 'cmd' as const, delay: 0 },
-  { text: '✓ PostgreSQL connected [pool:10]', type: 'ok' as const, delay: 400 },
-  { text: '✓ Redis cache warmed', type: 'ok' as const, delay: 700 },
-  { text: '✓ API routes loaded (15)', type: 'ok' as const, delay: 1000 },
-  { text: '✓ WebSocket server ready', type: 'ok' as const, delay: 1300 },
-  { text: '⚡ Server running on :4000', type: 'ok' as const, delay: 1600 },
-  { text: '', type: 'default' as const, delay: 1900 },
-  { text: '> 847 requests/sec', type: 'stat' as const, delay: 2200 },
-  { text: '> avg latency: 12ms', type: 'stat' as const, delay: 2500 },
-  { text: '> uptime: 99.98%', type: 'stat' as const, delay: 2800 },
-]
-
-export const STAT_ITEMS = [
-  { value: '2+', label: 'Years Engineering' },
-  { value: '100+', label: 'APIs Shipped' },
-  { value: '∞', label: 'Coffees Consumed' },
-]
-
-export const ABOUT_JSON = {
-  name: 'Kunal Wadhai',
-  role: 'Backend Engineer',
-  company: 'Guestara',
-  stack: ['Node.js', 'TypeScript', 'PostgreSQL', 'Redis'],
-  currently: 'Building PMS integrations at scale',
 }
 
-export const PROJECT_ARCH: Record<string, {
-  nodes: readonly { id: string; label: string; sub: string; x: number; y: number }[]
-  edges: readonly { from: string; to: string }[]
-}> = {
+export const PROJECT_ARCH: Record<
+  string,
+  {
+    nodes: readonly { id: string; label: string; sub: string; x: number; y: number }[]
+    edges: readonly { from: string; to: string }[]
+  }
+> = {
   'SupportIQ AI': {
     nodes: [
-      { id: 'client', label: 'Next.js Dashboard', sub: 'React · TypeScript · Tailwind', x: 50, y: 8 },
-      { id: 'widget', label: 'Chat Widget', sub: 'Embeddable · SSE Stream', x: 80, y: 8 },
-      { id: 'gateway', label: 'API Gateway', sub: 'Node.js · Express · JWT · BullMQ', x: 50, y: 32 },
-      { id: 'ai', label: 'AI Service', sub: 'FastAPI · LangChain · GPT-4o', x: 25, y: 56 },
-      { id: 'worker', label: 'Ingestion Worker', sub: 'BullMQ · PDF/DOCX Parser', x: 75, y: 56 },
-      { id: 'data', label: 'Data Layer', sub: 'PostgreSQL · Qdrant · Redis · MinIO', x: 50, y: 80 },
+      { id: 'client', label: 'Next.js Dashboard', sub: 'React · TypeScript', x: 30, y: 8 },
+      { id: 'widget', label: 'Chat Widget', sub: 'Embeddable · SSE', x: 70, y: 8 },
+      { id: 'gateway', label: 'API Gateway', sub: 'Node.js · Express · JWT · BullMQ', x: 50, y: 35 },
+      { id: 'ai', label: 'AI Service', sub: 'FastAPI · LangChain', x: 25, y: 62 },
+      { id: 'worker', label: 'Ingestion Worker', sub: 'BullMQ · PDF/DOCX parser', x: 75, y: 62 },
+      { id: 'data', label: 'Data Layer', sub: 'PostgreSQL · Qdrant · Redis', x: 50, y: 88 },
     ],
     edges: [
       { from: 'client', to: 'gateway' },
@@ -198,11 +137,11 @@ export const PROJECT_ARCH: Record<string, {
   },
   'foodSnatch': {
     nodes: [
-      { id: 'frontend', label: 'React SPA', sub: 'Vite · Tailwind · Framer Motion', x: 50, y: 8 },
-      { id: 'api', label: 'Express API', sub: 'JWT Auth · REST · Multer', x: 50, y: 32 },
-      { id: 'auth', label: 'Auth Layer', sub: 'User + Partner JWT · Cookies', x: 25, y: 56 },
-      { id: 'media', label: 'ImageKit CDN', sub: 'Video Upload · Streaming', x: 75, y: 56 },
-      { id: 'db', label: 'MongoDB Atlas', sub: 'Mongoose · Users · Reels · Likes', x: 50, y: 80 },
+      { id: 'frontend', label: 'React SPA', sub: 'Vite · Tailwind', x: 50, y: 8 },
+      { id: 'api', label: 'Express API', sub: 'JWT Auth · REST', x: 50, y: 35 },
+      { id: 'auth', label: 'Auth Layer', sub: 'User + Partner · HTTP-only cookies', x: 22, y: 62 },
+      { id: 'media', label: 'ImageKit CDN', sub: 'Video upload · streaming', x: 78, y: 62 },
+      { id: 'db', label: 'MongoDB Atlas', sub: 'Users · Reels · Likes', x: 50, y: 88 },
     ],
     edges: [
       { from: 'frontend', to: 'api' },
@@ -214,3 +153,12 @@ export const PROJECT_ARCH: Record<string, {
     ],
   },
 }
+
+export const TERMINAL_LINES = [
+  { text: '$ node server.ts', type: 'cmd' as const, delay: 0 },
+  { text: '✓ PostgreSQL connected [pool:10]', type: 'ok' as const, delay: 400 },
+  { text: '✓ Redis cache warmed', type: 'ok' as const, delay: 700 },
+  { text: '✓ API routes loaded (15)', type: 'ok' as const, delay: 1000 },
+  { text: '✓ SQS consumer started', type: 'ok' as const, delay: 1300 },
+  { text: '⚡ Server running on :4000', type: 'ok' as const, delay: 1600 },
+] as const

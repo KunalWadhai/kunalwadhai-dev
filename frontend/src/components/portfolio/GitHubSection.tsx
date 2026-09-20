@@ -1,6 +1,6 @@
-import { ExternalLink, GitBranch, Star, Users } from 'lucide-react'
+import { useState } from 'react'
+import { GitBranch, Users } from 'lucide-react'
 import type { GitHubSummary } from '../../features/portfolio/types'
-import { normalizeUrl } from '../../features/portfolio/utils'
 import { Reveal } from '../ui/Reveal'
 import { SectionHeader } from '../ui/SectionHeader'
 
@@ -9,52 +9,103 @@ export interface GitHubSectionProps {
   readonly handle: string
 }
 
-export function GitHubSection({ summary, handle }: GitHubSectionProps) {
-  if (!summary) return null
+/**
+ * GitHub contribution graph fetched directly from GitHub's SVG endpoint.
+ * ghchart.rshah.org proxies the official GitHub contribution calendar and
+ * returns a clean dark-compatible SVG — no auth required, real data.
+ *
+ * We load the SVG as an <img> (no JS needed, zero deps).
+ * The accent colour 'a1a1aa' is our --fg-subtle grey so it blends with both themes.
+ */
+function ContributionGraph({ handle }: { readonly handle: string }) {
+  const [errored, setErrored] = useState(false)
+
+  // ghchart.rshah.org/<color>/<username> — colour is the darkest cell hex (no #)
+  const chartUrl = `https://ghchart.rshah.org/6366f1/${handle}`
+
+  if (errored) {
+    return (
+      <div className="gh-graph-fallback">
+        <p>
+          Contribution graph unavailable.{' '}
+          <a
+            href={`https://github.com/${handle}`}
+            target="_blank"
+            rel="noreferrer"
+            className="gh-graph-fallback__link"
+          >
+            View on GitHub ↗
+          </a>
+        </p>
+      </div>
+    )
+  }
 
   return (
-    <section id="github" className="section section--github" aria-label="GitHub activity">
-      <SectionHeader
-        label="// open source"
-        title="GitHub pulse"
-        description={`Live snapshot from @${handle}`}
+    <div className="gh-graph-wrap">
+      <img
+        src={chartUrl}
+        alt={`${handle}'s GitHub contribution graph`}
+        className="gh-graph-img"
+        onError={() => setErrored(true)}
+        loading="lazy"
+        decoding="async"
       />
+    </div>
+  )
+}
 
-      <div className="github-stats">
-        <Reveal className="github-stat">
-          <GitBranch size={18} />
-          <strong>{summary.publicRepos}</strong>
-          <span>repos</span>
-        </Reveal>
-        <Reveal delay={0.06} className="github-stat">
-          <Users size={18} />
-          <strong>{summary.followers}</strong>
-          <span>followers</span>
-        </Reveal>
-        <Reveal delay={0.12} className="github-stat">
-          <Star size={18} />
-          <strong>{summary.following}</strong>
-          <span>following</span>
-        </Reveal>
-      </div>
+export function GitHubSection({ summary, handle }: GitHubSectionProps) {
+  return (
+    <section id="github" className="section" aria-label="GitHub activity">
+      <div className="container">
+        <SectionHeader
+          label="GitHub"
+          title="Contribution activity"
+          description={`Daily commits from @${handle} — the actual graph, not a screenshot.`}
+        />
 
-      <div className="github-repos">
-        {summary.repos.slice(0, 6).map((repo, i) => (
-          <Reveal key={repo.name} delay={0.05 * i} className="github-repo" data-hover>
-            <a href={normalizeUrl(repo.html_url)} target="_blank" rel="noreferrer">
-              <span className="github-repo__name">{repo.name}</span>
-              <span className="github-repo__meta">
-                {repo.language && <span>{repo.language}</span>}
-                {repo.stargazers > 0 && (
-                  <span>
-                    <Star size={12} /> {repo.stargazers}
-                  </span>
-                )}
-                <ExternalLink size={12} />
-              </span>
-            </a>
+        {/* Compact stat row — only shown if API data available */}
+        {summary && (
+          <Reveal>
+            <div className="gh-stats-row">
+              <div className="gh-stat">
+                <GitBranch size={14} aria-hidden="true" />
+                <strong>{summary.publicRepos}</strong>
+                <span>repositories</span>
+              </div>
+              <div className="gh-stat">
+                <Users size={14} aria-hidden="true" />
+                <strong>{summary.followers}</strong>
+                <span>followers</span>
+              </div>
+              <div className="gh-stat">
+                <Users size={14} aria-hidden="true" />
+                <strong>{summary.following}</strong>
+                <span>following</span>
+              </div>
+            </div>
           </Reveal>
-        ))}
+        )}
+
+        {/* Live contribution graph */}
+        <Reveal delay={0.08}>
+          <ContributionGraph handle={handle} />
+        </Reveal>
+
+        <Reveal delay={0.12}>
+          <div className="gh-graph-footer">
+            <a
+              href={`https://github.com/${handle}`}
+              target="_blank"
+              rel="noreferrer"
+              className="gh-graph-link"
+              aria-label={`View ${handle} on GitHub`}
+            >
+              github.com/{handle} ↗
+            </a>
+          </div>
+        </Reveal>
       </div>
     </section>
   )

@@ -12,13 +12,16 @@ export function useCodingStats(dashboards?: ProgrammingDashboards) {
 
   useEffect(() => {
     if (!handle) {
-      setLeetcode(null)
-      setState('idle')
+      // Use a microtask to avoid calling setState synchronously in effect body
+      Promise.resolve().then(() => {
+        setLeetcode(null)
+        setState('idle')
+      })
       return
     }
 
     let active = true
-    setState('loading')
+    Promise.resolve().then(() => setState('loading'))
 
     apiGet(`/api/leetcode/stats?username=${encodeURIComponent(handle)}`)
       .then((res) => {

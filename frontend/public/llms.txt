@@ -1,0 +1,75 @@
+# Kunal Wadhai
+
+> Backend Engineer · TypeScript · Node.js · AWS
+
+## Identity
+
+Name: Kunal Wadhai
+Role: Backend Engineer
+Location: India
+Email: kunalwadhai456@gmail.com
+Website: https://www.kunalwadhaidev.me/
+GitHub: https://github.com/KunalWadhai
+LinkedIn: https://www.linkedin.com/in/kunal-wadhai/
+
+## Summary
+
+I build production backend systems, APIs, integrations and infrastructure.
+Currently at Guestara (hospitality SaaS), working on PMS integrations, IoT smart lock systems,
+real-time booking sync, and operational dashboard APIs.
+
+## Current Role
+
+Company: Guestara
+Title: Backend Engineer
+Start: November 2024
+Type: Full-time
+
+Key work:
+- PMS integrations with Beds24, Ezee, Hotelogix (real-time booking + room sync)
+- Tuya IoT smart lock system with Pulsar event streaming
+- Redis-backed API monitoring and alerting
+- Financial sync pipeline (upsell + payment data consistency)
+- Data-heavy dashboard APIs for operational visibility
+
+## Previous Experience
+
+Company: Zoho
+Title: Firmware Engineering Intern
+Period: January 2025 – April 2025
+Work: OpenBMC firmware, Yocto Linux images, Raspberry Pi / BeagleBone Black, shell automation
+
+## Projects
+
+### SupportIQ AI
+RAG-powered customer support platform.
+Technologies: Next.js 14, TypeScript, FastAPI, LangChain, PostgreSQL, Qdrant, Redis, Docker, BullMQ
+GitHub: https://github.com/KunalWadhai/SupportIQ.ai
+
+### foodSnatch
+Short-video food reel platform.
+Technologies: React, Node.js, Express, MongoDB, ImageKit, Docker, JWT
+Live: https://foodsnatch.onrender.com
+GitHub: https://github.com/KunalWadhai/foodSnatch
+
+## Technical Stack
+
+Languages: TypeScript, JavaScript, C/C++, Java, Python
+Backend: Node.js, Express, REST APIs, Microservices
+Data: PostgreSQL, MongoDB, MySQL, Redis
+Infrastructure: AWS, Docker, CI/CD, CloudWatch, Linux
+Messaging: SQS, BullMQ, Apache Pulsar
+Frontend: React, Next.js, HTML, CSS
+Tools: Git, GitHub, Postman, OpenAPI
+
+## Education
+
+Degree: B.E. Computer Science & Engineering
+Institution: Government College of Engineering Chandrapur
+CGPA: 8.53
+Graduation: 2025
+
+## Availability
+
+Open to: Software Engineering roles, backend contract work
+Response: kunalwadhai456@gmail.com
