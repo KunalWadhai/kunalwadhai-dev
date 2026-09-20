@@ -10,14 +10,12 @@ import { GitHubSection } from '../../components/portfolio/GitHubSection'
 import { HeroSection } from '../../components/portfolio/HeroSection'
 import { ProjectsSection } from '../../components/portfolio/ProjectsSection'
 import { SkillsSection } from '../../components/portfolio/SkillsSection'
-import { TechMarquee } from '../../components/portfolio/TechMarquee'
-import { TestimonialsSection } from '../../components/portfolio/TestimonialsSection'
 import { NAV_SECTION_IDS } from './constants'
 import { usePortfolioData } from './hooks'
 import { useScrollSpy } from '../../hooks/useScrollSpy'
 
 const AIChatWidget = lazy(() =>
-  import('../../components/AIChatWidget').then((m) => ({ default: m.AIChatWidget }))
+  import('../../components/AIChatWidget').then((m) => ({ default: m.AIChatWidget })),
 )
 
 export default function PortfolioPage() {
@@ -47,22 +45,19 @@ export default function PortfolioPage() {
       <SiteChrome />
 
       <Navigation
-        brand={data.name.split(' ')[0]}
         activeSection={activeSection}
         scrolled={scrolled}
         onScrollTop={scrollToTop}
       />
 
-      <main className="page">
+      <main id="main" tabIndex={-1}>
         <HeroSection data={data} dataState={state} />
-        <TechMarquee />
         <AboutSection />
         <ExperienceSection experience={data.experience} />
         <ProjectsSection projects={data.projects} />
+        <SkillsSection />
         <GitHubSection summary={githubSummary} handle={githubHandle} />
         <CodingProfilesSection dashboards={data.programmingDashboards} />
-        <SkillsSection />
-        <TestimonialsSection />
         <ContactSection data={data} />
       </main>
 

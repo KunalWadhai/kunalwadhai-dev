@@ -1,31 +1,50 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/portfolio-logo.png" />
+    <link rel="apple-touch-icon" href="/portfolio-logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Kunal Wadhai is a Backend Engineer specializing in distributed architecture, high-throughput APIs, and the invisible infrastructure behind great products." />
-    <meta name="robots" content="index, follow" />
+
+    <!-- Primary meta -->
+    <title>Kunal Wadhai — Backend Engineer</title>
+    <meta name="description" content="Kunal Wadhai is a Backend Engineer building production APIs, PMS integrations, and distributed systems with TypeScript, Node.js and AWS." />
     <meta name="author" content="Kunal Wadhai" />
-    <meta name="keywords" content="Kunal Wadhai, Backend Engineer, Node.js, TypeScript, PostgreSQL, Redis, Docker, AWS, Distributed Systems, API Architecture" />
+    <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Kunal Wadhai, Backend Engineer, Node.js, TypeScript, PostgreSQL, Redis, AWS, REST APIs, distributed systems" />
     <link rel="canonical" href="https://www.kunalwadhaidev.me/" />
 
+    <!-- Google site verification -->
     <meta name="google-site-verification" content="RjIvtO22dFirqLk_0k7kqV3OU_O5DzoHvq8V5r40-Xc" />
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Kunal Wadhai" />
     <meta property="og:title" content="Kunal Wadhai — Backend Engineer" />
-    <meta property="og:description" content="I build systems that don't break. Backend engineer specializing in distributed architecture, high-throughput APIs, and production reliability." />
+    <meta property="og:description" content="Building production APIs, PMS integrations, and distributed systems with TypeScript, Node.js and AWS." />
     <meta property="og:url" content="https://www.kunalwadhaidev.me/" />
-    <meta property="og:image" content="https://www.kunalwadhaidev.me/favicon.svg" />
+    <meta property="og:image" content="https://www.kunalwadhaidev.me/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
 
+    <!-- Twitter / X card -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@AloneWarrior27" />
+    <meta name="twitter:creator" content="@AloneWarrior27" />
     <meta name="twitter:title" content="Kunal Wadhai — Backend Engineer" />
-    <meta name="twitter:description" content="I build systems that don't break. Distributed architecture, high-throughput APIs, and production reliability." />
-    <meta name="twitter:image" content="https://www.kunalwadhaidev.me/favicon.svg" />
+    <meta name="twitter:description" content="Building production APIs, PMS integrations, and distributed systems with TypeScript, Node.js and AWS." />
+    <meta name="twitter:image" content="https://www.kunalwadhaidev.me/og-image.png" />
 
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
-    <title>Kunal Wadhai — Backend Engineer</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Structured data: Person -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -33,27 +52,54 @@
         "name": "Kunal Wadhai",
         "url": "https://www.kunalwadhaidev.me/",
         "jobTitle": "Backend Engineer",
-        "description": "Backend Engineer specializing in distributed architecture, high-throughput APIs, and the invisible infrastructure behind great products.",
+        "description": "Backend Engineer building production APIs, PMS integrations, and distributed systems with TypeScript, Node.js and AWS.",
         "email": "mailto:kunalwadhai456@gmail.com",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "IN"
+        },
         "sameAs": [
           "https://github.com/KunalWadhai",
           "https://www.linkedin.com/in/kunal-wadhai/",
-          "https://leetcode.com/u/lost_war/",
           "https://x.com/AloneWarrior27"
+        ],
+        "knowsAbout": [
+          "Node.js",
+          "TypeScript",
+          "REST APIs",
+          "PostgreSQL",
+          "Redis",
+          "AWS",
+          "Docker",
+          "Distributed systems",
+          "Backend engineering",
+          "Software Engineering"
         ]
       }
     </script>
+
+    <!-- Structured data: WebSite -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "name": "Kunal Wadhai Portfolio",
+        "name": "Kunal Wadhai — Backend Engineer",
         "url": "https://www.kunalwadhaidev.me/",
         "author": {
           "@type": "Person",
           "name": "Kunal Wadhai"
         }
       }
+    </script>
+
+    <!-- Prevent theme flash -->
+    <script>
+      (function () {
+        var stored = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
     </script>
   </head>
   <body>

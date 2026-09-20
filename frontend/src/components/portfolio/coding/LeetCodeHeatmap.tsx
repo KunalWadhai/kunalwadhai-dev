@@ -27,8 +27,9 @@ export function LeetCodeHeatmap({ activity, streak }: LeetCodeHeatmapProps) {
 
     const weeks: { date: string; count: number; lvl: 0 | 1 | 2 | 3 | 4 }[][] = []
     const monthLabels: { label: string; col: number }[] = []
+    // eslint-disable-next-line prefer-const
     let cursor = new Date(start)
-    let lastMonth = -1
+    const lastMonthRef = { value: -1 }
 
     for (let w = 0; w < 27; w++) {
       const week: { date: string; count: number; lvl: 0 | 1 | 2 | 3 | 4 }[] = []
@@ -37,12 +38,12 @@ export function LeetCodeHeatmap({ activity, streak }: LeetCodeHeatmapProps) {
         const count = countByDate.get(iso) ?? 0
         week.push({ date: iso, count, lvl: level(count) })
 
-        if (cursor.getMonth() !== lastMonth && d === 0) {
+        if (cursor.getMonth() !== lastMonthRef.value && d === 0) {
           monthLabels.push({
             label: cursor.toLocaleDateString('en-US', { month: 'short' }),
             col: w,
           })
-          lastMonth = cursor.getMonth()
+          lastMonthRef.value = cursor.getMonth()
         }
         cursor.setDate(cursor.getDate() + 1)
       }

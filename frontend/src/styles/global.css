@@ -1,3 +1,11 @@
+/* ═══════════════════════════════════════════════════════════════
+   GLOBAL — Reset, base, utilities
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Geist — loaded from Vercel's CDN */
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap');
+
 *,
 *::before,
 *::after {
@@ -10,69 +18,87 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-size-adjust: 100%;
 }
 
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font-body);
-  font-size: 16px;
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
   line-height: 1.65;
   overflow-x: hidden;
   min-height: 100vh;
+  transition: background-color var(--dur-base) var(--ease-out),
+              color var(--dur-base) var(--ease-out);
 }
 
 #root {
   min-height: 100vh;
-  position: relative;
 }
 
+/* ── Links ── */
 a {
   color: inherit;
   text-decoration: none;
 }
 
+/* ── Buttons ── */
 button {
   font-family: inherit;
   cursor: pointer;
   border: none;
   background: none;
+  color: inherit;
 }
 
-ul,
-ol {
+/* ── Lists ── */
+ul, ol {
   list-style: none;
 }
 
-img {
+/* ── Images ── */
+img, video {
   max-width: 100%;
   display: block;
 }
 
-input,
-textarea {
+/* ── Forms ── */
+input, textarea, select {
   font-family: inherit;
   font-size: inherit;
+  color: inherit;
 }
 
+/* ── Selection ── */
 ::selection {
-  background: rgba(157, 123, 255, 0.35);
-  color: #fff;
+  background: var(--accent-bg);
+  color: var(--fg);
 }
 
+/* ── Scrollbar ── */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
-
 ::-webkit-scrollbar-track {
-  background: var(--bg);
+  background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: rgba(157, 123, 255, 0.3);
-  border-radius: 3px;
+  background: var(--border-strong);
+  border-radius: var(--radius-pill);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fg-subtle);
 }
 
+/* ── Focus visible ── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -80,9 +106,130 @@ textarea {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
+}
 
-  html {
-    scroll-behavior: auto;
-  }
+/* ── Utilities ── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: -60px;
+  left: var(--space-4);
+  z-index: 9999;
+  background: var(--accent);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  transition: top var(--dur-fast);
+}
+.skip-link:focus {
+  top: var(--space-4);
+}
+
+/* ── Shared layout ── */
+.page {
+  position: relative;
+  z-index: 1;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: clamp(var(--space-5), 5vw, var(--space-10));
+}
+
+/* ── Section base ── */
+.section {
+  padding-block: var(--section-gap);
+}
+
+/* ── Shared button styles ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: 1;
+  transition: background var(--dur-fast) var(--ease-out),
+              color var(--dur-fast) var(--ease-out),
+              border-color var(--dur-fast) var(--ease-out),
+              box-shadow var(--dur-fast) var(--ease-out),
+              transform var(--dur-fast) var(--ease-out);
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn--primary {
+  background: var(--fg);
+  color: var(--bg);
+  border: 1px solid transparent;
+}
+.btn--primary:hover {
+  background: var(--fg-muted);
+}
+[data-theme="light"] .btn--primary:hover {
+  background: var(--_gray-800);
+  color: #fff;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--fg-muted);
+  border: 1px solid var(--border-strong);
+}
+.btn--ghost:hover {
+  color: var(--fg);
+  border-color: var(--border-strong);
+  background: var(--bg-subtle);
+}
+
+/* ── Tag / pill ── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-family: var(--font-mono);
+  color: var(--fg-muted);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+/* ── Inline code ── */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--code-bg);
+  color: var(--code-fg);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Divider ── */
+.divider {
+  height: 1px;
+  background: var(--border);
+  border: none;
+  margin-block: var(--section-gap);
 }
