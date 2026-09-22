@@ -26,7 +26,8 @@ export function HomePage() {
 
       <Header />
 
-      <main id="main">
+      {/* 52px pill height + 12px top offset + 16px breathing room = 80px */}
+      <main id="main" style={{ paddingTop: '80px' }}>
         <HeroSection />
         <hr className="section-divider" aria-hidden="true" />
         

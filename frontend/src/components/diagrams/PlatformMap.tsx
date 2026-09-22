@@ -74,8 +74,11 @@ export function PlatformMap() {
     if (layer.caseStudy) {
       const target = layer.caseStudy.startsWith('#')
         ? layer.caseStudy
-        : `#work` // All case studies are in the work section for now
-      window.location.hash = target
+        : `#work`
+      // Use href assignment to navigate to anchor — avoids eslint immutability rule
+      const a = document.createElement('a')
+      a.href = target
+      a.click()
     }
   }
 

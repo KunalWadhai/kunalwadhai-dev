@@ -6,17 +6,17 @@
 import { useEffect, useState } from 'react'
 
 export function BackgroundGrid() {
-  const [prefersReduced, setPrefersReduced] = useState(false)
+  const [prefersReduced, setPrefersReduced] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  )
 
   useEffect(() => {
-    // Check reduced motion preference
     const query = window.matchMedia('(prefers-reduced-motion: reduce)')
-    setPrefersReduced(query.matches)
-
     const handleChange = (e: MediaQueryListEvent) => {
       setPrefersReduced(e.matches)
     }
-
     query.addEventListener('change', handleChange)
     return () => query.removeEventListener('change', handleChange)
   }, [])
