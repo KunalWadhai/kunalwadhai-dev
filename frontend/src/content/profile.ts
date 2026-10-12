@@ -35,6 +35,6 @@ export const profile: ProfileContent = {
   },
   
   resume: {
-    pdfUrl: 'https://drive.google.com/file/d/1oOYJhDyVyiSGzBUCikZa-4V0p3ixh9eK/view?usp=sharing',
+    pdfUrl: 'https://drive.google.com/uc?export=download&id=17PSerWGj5S0aRT2TZJnEf_FtyOr91hCA',
   },
 } satisfies ProfileContent
