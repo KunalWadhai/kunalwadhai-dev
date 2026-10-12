@@ -1,7 +1,6 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "frontend/dist",
-  "installCommand": "echo 'Skipping root dependencies'",
   "framework": null,
   "trailingSlash": false,
   "cleanUrls": true
