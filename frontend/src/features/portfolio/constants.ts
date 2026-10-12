@@ -77,7 +77,7 @@ export const DEFAULT_PROFILE: Profile = {
       technologies: ['React', 'Node.js', 'Express', 'MongoDB', 'ImageKit', 'Docker', 'JWT'],
     },
   ],
-  resume: { pdfUrl: 'https://drive.google.com/uc?export=download&id=17PSerWGj5S0aRT2TZJnEf_FtyOr91hCA' },
+  resume: { pdfUrl: 'https://drive.google.com/file/d/1oOYJhDyVyiSGzBUCikZa-4V0p3ixh9eK/view?usp=sharing' },
   programmingDashboards: {
     leetcode: { handle: 'KunalWadhai11011', url: 'https://leetcode.com/u/KunalWadhai11011/' },
     hackerrank: { username: 'Kunal_Wadhai', url: 'https://www.hackerrank.com/profile/Kunal_Wadhai' },
