@@ -1,8 +1,11 @@
 {
   "name": "portfolio-monorepo",
   "private": true,
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "build": "cd frontend && npm ci && npm run build",
+    "build": "npm run build --prefix frontend",
     "dev:frontend": "cd frontend && npm run dev",
     "dev:backend": "cd backend && npm run dev"
   }
