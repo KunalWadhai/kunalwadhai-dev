@@ -10,7 +10,7 @@ import { Github, Linkedin } from 'lucide-react'
 
 export function HeroSection() {
   return (
-    <section className="hero" aria-label="Introduction">
+    <section id="top" className="hero" aria-label="Introduction">
       <div className="container">
         <div className="hero__grid">
           {/* Left: Headline + bio + CTAs */}
@@ -82,13 +82,13 @@ export function HeroSection() {
 
       <style>{`
         .hero {
-          padding-block: var(--space-16);
+          padding-block: var(--space-8) var(--space-12);
           position: relative;
         }
 
         @media (max-width: 767px) {
           .hero {
-            padding-block: var(--space-10) var(--space-12);
+            padding-block: var(--space-6) var(--space-8);
           }
         }
 

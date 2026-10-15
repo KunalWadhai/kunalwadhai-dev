@@ -185,7 +185,7 @@ code {
   left: var(--space-4);
   z-index: 9999;
   background: var(--accent);
-  color: var(--bg-base);
+  color: #f4f0ef;
   padding: 10px 20px;
   border-radius: var(--radius);
   font-size: var(--text-sm);
@@ -273,14 +273,15 @@ code {
 }
 
 .btn--primary {
-  background: var(--accent);
-  color: var(--bg-base);
-  border-color: var(--accent);
+  background: linear-gradient(180deg, var(--accent-hover) 0%, var(--accent) 55%, var(--accent-deep) 100%);
+  color: #f4f0ef;
+  border-color: color-mix(in srgb, var(--accent-hover) 50%, #2a1010);
+  box-shadow: var(--shine-top), 0 1px 0 rgba(0, 0, 0, 0.35);
 }
 .btn--primary:hover {
-  background: var(--accent-hover);
+  background: linear-gradient(180deg, #b25555 0%, var(--accent-hover) 55%, var(--accent) 100%);
   border-color: var(--accent-hover);
-  color: var(--bg-base);
+  color: #faf7f6;
 }
 
 .btn--secondary {
@@ -318,10 +319,11 @@ button.chip:hover {
 
 /* ── Panel (no shadow, border + surface) ── */
 .panel {
-  background: var(--bg-raised);
+  background: var(--bg-metal);
   border: 1px solid var(--line-subtle);
   border-radius: var(--radius);
   padding: var(--space-5);
+  box-shadow: var(--shine-top);
 }
 
 /* ── Well (inset, for code blocks and diagrams) ── */
