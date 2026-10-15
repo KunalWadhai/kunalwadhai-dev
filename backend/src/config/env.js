@@ -27,11 +27,15 @@ if (isNaN(PORT)) {
 
 export const env = {
   PORT,
-  FRONTEND_ORIGIN: optional('FRONTEND_ORIGIN', 'http://localhost:5173'),
+  FRONTEND_ORIGIN: optional(
+    'FRONTEND_ORIGIN',
+    'http://localhost:5173,https://www.kunalwadhaidev.me,https://kunalwadhaidev.me',
+  ),
   LLM_API_KEY,
   LLM_BASE_URL,
   LLM_MODEL: optional('LLM_MODEL', 'openai/gpt-oss-20b'),
   GITHUB_TOKEN: optional('GITHUB_TOKEN', ''),
+  GITHUB_API: optional('GITHUB_API', 'https://api.github.com'),
   NODE_ENV: optional('NODE_ENV', 'development'),
   LOG_LEVEL: optional('LOG_LEVEL', 'info'),
 }

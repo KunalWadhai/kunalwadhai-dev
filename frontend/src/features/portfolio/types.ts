@@ -62,6 +62,21 @@ export type GitHubSummary = {
   repos: GitHubRepo[]
 }
 
+export type GitHubContributionDay = {
+  date: string
+  count: number
+  level: number
+}
+
+export type GitHubContributions = {
+  handle: string
+  profileUrl: string
+  total: number
+  days: GitHubContributionDay[]
+  source: string
+  fetchedAt: string
+}
+
 export type ChatMessage = {
   role: 'user' | 'assistant'
   content: string

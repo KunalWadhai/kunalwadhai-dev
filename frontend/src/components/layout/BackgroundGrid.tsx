@@ -27,7 +27,9 @@ export function BackgroundGrid() {
   return (
     <>
       {/* 64px square background grid */}
+      <div className="bg-glow" aria-hidden="true" />
       <div className="bg-grid" aria-hidden="true" />
+      <div className="bg-bloom" aria-hidden="true" />
 
       {/* Structural rails (desktop only, ≥1024px) */}
       <div className="bg-rails" aria-hidden="true">

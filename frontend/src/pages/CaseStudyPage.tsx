@@ -5,9 +5,7 @@
 
 import { useParams, Link } from 'react-router-dom'
 import { caseStudies } from '../content/case-studies'
-import { Header } from '../components/layout/Header'
-import { Footer } from '../components/layout/Footer'
-import { BackgroundGrid } from '../components/layout/BackgroundGrid'
+import { SiteShell } from '../components/layout/SiteShell'
 import { SmartLockDiagram } from '../components/diagrams/SmartLockDiagram'
 import { WebhookDiagram } from '../components/diagrams/WebhookDiagram'
 import { StateMachineDiagram } from '../components/diagrams/StateMachineDiagram'
@@ -29,18 +27,16 @@ export function CaseStudyPage() {
 
   if (!study) {
     return (
-      <div className="cs-not-found">
-        <Header />
-        <main id="main" style={{ paddingTop: 'var(--nav-height)' }}>
-          <div className="container" style={{ paddingTop: 'var(--space-16)' }}>
+      <SiteShell>
+        <main id="main" className="page-main">
+          <div className="container" style={{ paddingTop: 'var(--space-8)' }}>
             <h1>Case study not found</h1>
             <Link to="/#work" className="cs-back-link">
               <ArrowLeft size={14} aria-hidden="true" /> Back to work
             </Link>
           </div>
         </main>
-        <Footer />
-      </div>
+      </SiteShell>
     )
   }
 
@@ -49,14 +45,8 @@ export function CaseStudyPage() {
     : null
 
   return (
-    <>
-      <BackgroundGrid />
-
-      <a href="#main" className="skip-link">Skip to main content</a>
-
-      <Header />
-
-      <main id="main" className="cs-main">
+    <SiteShell>
+      <main id="main" className="cs-main page-main">
         <div className="container">
 
           {/* Back link */}
@@ -181,12 +171,9 @@ export function CaseStudyPage() {
         </div>
       </main>
 
-      <Footer />
-
       <style>{`
         .cs-main {
-          padding-top: calc(var(--nav-height) + var(--space-8));
-          padding-bottom: var(--space-16);
+          padding-bottom: var(--space-10);
         }
 
         .cs-back-link {
@@ -450,6 +437,6 @@ export function CaseStudyPage() {
         }
         .cs-next__link:hover { color: var(--accent); }
       `}</style>
-    </>
+    </SiteShell>
   )
 }

@@ -3,6 +3,7 @@
  * Each row: title, one-line outcome, stack chips, "Read case study →" link
  */
 
+import { Link } from 'react-router-dom'
 import { caseStudies } from '../../content/case-studies'
 import { ArrowRight } from 'lucide-react'
 
@@ -44,14 +45,14 @@ export function WorkSection() {
                     )}
                   </div>
 
-                  <a
-                    href={`/work/${caseStudy.slug}`}
+                  <Link
+                    to={`/work/${caseStudy.slug}`}
                     className="work-row__link"
                     aria-label={`Read case study: ${caseStudy.title}`}
                   >
                     Read case study
                     <ArrowRight size={14} aria-hidden="true" />
-                  </a>
+                  </Link>
                 </article>
               ))}
             </div>

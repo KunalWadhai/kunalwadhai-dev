@@ -1,13 +1,9 @@
-/**
- * Home Page — Assembles all sections
- * Order per brief Section 2.3: Hero, Work, Experience, Skills, Projects, Proof, Contact
- */
-
-import { Header } from '../components/layout/Header'
-import { Footer } from '../components/layout/Footer'
-import { BackgroundGrid } from '../components/layout/BackgroundGrid'
+import { SiteShell } from '../components/layout/SiteShell'
 import { HeroSection } from '../components/sections/HeroSection'
+import { ArchitectureFlowSection } from '../components/sections/ArchitectureFlowSection'
 import { WorkSection } from '../components/sections/WorkSection'
+import { GitHubGraphSection } from '../components/sections/GitHubGraphSection'
+import { AgentSection } from '../components/sections/AgentSection'
 import { ExperienceSection } from '../components/sections/ExperienceSection'
 import { SkillsSection } from '../components/sections/SkillsSection'
 import { ProjectsSection } from '../components/sections/ProjectsSection'
@@ -16,40 +12,29 @@ import { ContactSection } from '../components/sections/ContactSection'
 
 export function HomePage() {
   return (
-    <>
-      <BackgroundGrid />
-      
-      {/* Skip link */}
-      <a href="#main" className="skip-link">
-        Skip to main content
-      </a>
-
-      <Header />
-
-      {/* 52px pill height + 12px top offset + 16px breathing room = 80px */}
-      <main id="main" style={{ paddingTop: '80px' }}>
+    <SiteShell>
+      <main id="main" className="page-main">
+        <div id="top" />
         <HeroSection />
         <hr className="section-divider" aria-hidden="true" />
-        
+        <ArchitectureFlowSection />
+        <hr className="section-divider" aria-hidden="true" />
         <WorkSection />
         <hr className="section-divider" aria-hidden="true" />
-        
+        <GitHubGraphSection />
+        <hr className="section-divider" aria-hidden="true" />
+        <AgentSection />
+        <hr className="section-divider" aria-hidden="true" />
         <ExperienceSection />
         <hr className="section-divider" aria-hidden="true" />
-        
         <SkillsSection />
         <hr className="section-divider" aria-hidden="true" />
-        
         <ProjectsSection />
         <hr className="section-divider" aria-hidden="true" />
-        
         <ProofSection />
         <hr className="section-divider" aria-hidden="true" />
-        
         <ContactSection />
       </main>
-
-      <Footer />
-    </>
+    </SiteShell>
   )
 }
