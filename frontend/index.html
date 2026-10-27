@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/portfolio-logo.png" />
     <link rel="apple-touch-icon" href="/portfolio-logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
     <!-- Primary meta -->
     <title>Kunal Wadhai — Backend-First Full-Stack Engineer</title>
@@ -36,6 +36,13 @@
     <meta name="twitter:description" content="Backend-first full-stack engineer who owns production systems end to end. 100+ properties, 10+ services, PMS integrations, IoT provisioning." />
     <meta name="twitter:image" content="https://www.kunalwadhaidev.me/og-image.png" />
 
+    <!-- Resource hints: preconnect and DNS prefetch for external origins -->
+    <link rel="dns-prefetch" href="https://api.github.com" />
+    
+    <!-- Resource hints: critical fonts preload (reduces LCP) -->
+    <!-- Main font: IBM Plex Sans 400 (body text) -->
+    <link rel="preload" as="font" type="font/woff2" href="/assets/ibm-plex-sans-latin-400-normal.woff2" crossorigin="anonymous" />
+    
     <!-- Fonts: IBM Plex Sans + Mono (self-hosted via @fontsource, loaded in main-v2.tsx) -->
 
     <!-- Structured data: Person -->

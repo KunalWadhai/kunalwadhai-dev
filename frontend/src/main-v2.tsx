@@ -7,6 +7,7 @@ import './styles/chrome.css'
 import { HomePage } from './pages/HomePage'
 import { CaseStudyPage } from './pages/CaseStudyPage'
 import { NotFoundPage } from './pages/NotFoundPage'
+import { ErrorBoundary } from './components/ErrorBoundary'
 
 const root = document.getElementById('root')
 if (!root) {
@@ -15,12 +16,14 @@ if (!root) {
 
 createRoot(root).render(
   <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/work/:slug" element={<CaseStudyPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/work/:slug" element={<CaseStudyPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </BrowserRouter>
+    </ErrorBoundary>
   </StrictMode>,
 )

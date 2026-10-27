@@ -1,15 +1,15 @@
 /* ═══════════════════════════════════════════════════════════════
-   STAGE CHROME — telemetry, nav, graph, agent, architecture, footer
+   STAGE CHROME — nav, footer, github, agents, architecture
    ═══════════════════════════════════════════════════════════════ */
 
 .page-main {
-  padding-top: calc(28px + 64px);
+  padding-top: 64px;
   padding-bottom: var(--space-10);
 }
 
 @media (max-width: 767px) {
   .page-main {
-    padding-top: 32px;
+    padding-top: 64px;
     padding-bottom: calc(var(--tab-height) + env(safe-area-inset-bottom, 0px) + 88px);
   }
 }
@@ -55,77 +55,14 @@
     radial-gradient(ellipse 40% 28% at 92% 8%, rgba(200, 200, 208, 0.07), transparent 50%);
 }
 
-/* ── Telemetry ── */
-.telemetry {
+/* ── Desktop masthead ── */
+.masthead {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 210;
-  height: 28px;
-  border-bottom: 1px solid var(--line-subtle);
-  background: color-mix(in srgb, #141416 86%, transparent);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
-  box-shadow: var(--shine-top);
-}
-
-.telemetry__inner {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding-inline: clamp(1rem, 4vw, 2rem);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  color: var(--text-tertiary);
-  overflow: hidden;
-}
-
-.telemetry__dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent-hover);
-  box-shadow: 0 0 10px var(--accent-ring);
-  flex-shrink: 0;
-}
-
-.telemetry em {
-  font-style: normal;
-  color: var(--text-silver);
-  margin-right: 4px;
-}
-
-.telemetry__sep {
-  opacity: 0.35;
-}
-
-.telemetry__iso {
-  margin-left: auto;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-}
-
-@media (max-width: 767px) {
-  .telemetry__iso,
-  .telemetry__sep:nth-of-type(2),
-  .telemetry__item:nth-of-type(3) {
-    display: none;
-  }
-}
-
-/* ── Desktop masthead ── */
-.masthead {
-  position: fixed;
-  top: 28px;
-  left: 0;
-  right: 0;
   z-index: 200;
-  height: 56px;
+  height: 64px;
   border-bottom: 1px solid var(--line-subtle);
   background: color-mix(in srgb, var(--bg-raised) 72%, transparent);
   backdrop-filter: blur(18px) saturate(150%);
@@ -206,7 +143,7 @@
   }
 }
 
-/* ── Mobile tab bar ── */
+/* ── Mobile tab bar (centered, narrower) ── */
 .tabbar {
   display: none;
 }
@@ -215,18 +152,41 @@
   .tabbar {
     display: flex;
     position: fixed;
-    left: 12px;
-    right: 12px;
-    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
     z-index: 220;
+    width: min(calc(100% - 32px), 360px); /* Narrower: max 360px */
     height: var(--tab-height);
-    padding: 6px;
-    border-radius: 22px;
+    padding: 4px;
+    border-radius: 20px;
     border: 1px solid var(--line-strong);
-    background: color-mix(in srgb, #1a1a1c 88%, transparent);
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
-    box-shadow: var(--shine-top), 0 12px 40px rgba(0, 0, 0, 0.5);
+    background: color-mix(in srgb, #1a1a1c 92%, transparent);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    box-shadow: 
+      var(--shine-top), 
+      0 8px 24px rgba(0, 0, 0, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transition: transform var(--dur-base) var(--ease-out),
+                opacity var(--dur-base) var(--ease-out);
+    opacity: 1;
+  }
+
+  .tabbar--hidden {
+    transform: translateX(-50%) translateY(calc(100% + 20px));
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tabbar {
+      transition: none;
+    }
+    .tabbar--hidden {
+      transform: none;
+      display: none;
+    }
   }
 
   .tabbar__item {
@@ -235,16 +195,51 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    border-radius: 16px;
-    font-size: 10px;
+    gap: 3px;
+    border-radius: 14px;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
     color: var(--text-tertiary);
+    /* Ensure minimum 48x48px tap target */
+    min-height: 48px;
+    padding: 6px 8px;
+    position: relative;
+    transition: all var(--dur-fast) var(--ease-out);
+  }
+
+  .tabbar__item svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .tabbar__item:active {
+    transform: scale(0.96);
   }
 
   .tabbar__item.is-active {
     color: var(--text-primary);
     background: var(--accent-wash);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  /* Minimal indicator dot for active item */
+  .tabbar__item.is-active::after {
+    content: '';
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 6px var(--accent-ring);
+  }
+
+  .tabbar__item:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
   }
 }
 
@@ -254,7 +249,39 @@
   overflow: hidden;
   border-top: 1px solid var(--line-subtle);
   padding-top: var(--space-8);
+  padding-bottom: var(--space-6);
   margin-top: var(--space-10);
+}
+
+.footer__telemetry {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--line-faint);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
+}
+
+.footer__telemetry-item em {
+  font-style: normal;
+  color: var(--text-silver);
+  margin-right: 4px;
+}
+
+.footer__telemetry-sep {
+  opacity: 0.3;
+}
+
+@media (max-width: 640px) {
+  .footer__telemetry {
+    font-size: 9px;
+    gap: 8px;
+  }
 }
 
 .footer__meta {
@@ -376,6 +403,12 @@
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin {
+    animation: none;
+  }
 }
 
 /* ── Architecture grid ── */
@@ -589,6 +622,13 @@
 
 @keyframes bounce {
   30% { transform: translateY(-4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .agent-typing span {
+    animation: none;
+    opacity: 0.6;
+  }
 }
 
 .agent-panel__quick {
