@@ -1,85 +1,183 @@
 /* ═══════════════════════════════════════════════════════════════
-   DESIGN TOKENS v2 — Graphite, silver, muted maroon
-   Brushed-metal finish: satin sheen, not glossy neon
+   DESIGN TOKENS v3 — Light / Dark / System theme support
+   Single source of truth for all design decisions.
    ═══════════════════════════════════════════════════════════════ */
 
-:root {
-  /* ── Surfaces (cool graphite, slight silver lift) ── */
-  --bg-base:      #121212;
-  --bg-raised:    #1c1c1e;
-  --bg-inset:     #0e0e0f;
-  --bg-metal:     linear-gradient(180deg, #262628 0%, #1a1a1c 48%, #161617 100%);
+/* ── Dark theme (default, applied via [data-theme="dark"]) ── */
+:root,
+[data-theme="dark"] {
+  /* Surfaces */
+  --bg-base:      #0f0f11;
+  --bg-raised:    #181820;
+  --bg-inset:     #0b0b0e;
+  --bg-surface-2: #1e1e28;
 
-  /* ── Lines (silver hairlines) ── */
-  --line-faint:   rgba(198, 198, 204, 0.06);
-  --line-subtle:  rgba(198, 198, 204, 0.12);
-  --line-strong:  rgba(212, 212, 216, 0.22);
-  --line-shine:   rgba(232, 232, 236, 0.28);
+  /* Borders */
+  --line-faint:   rgba(198, 198, 220, 0.05);
+  --line-subtle:  rgba(198, 198, 220, 0.10);
+  --line-strong:  rgba(212, 212, 230, 0.20);
+  --line-shine:   rgba(232, 232, 240, 0.25);
 
-  /* ── Text ── */
-  --text-primary:   #ececef;
-  --text-secondary: #a3a3ab;
-  --text-tertiary:  #7c7c84;
-  --text-silver:    #c8c8ce;
+  /* Text */
+  --text-primary:   #eaeaf0;
+  --text-secondary: #9898a8;
+  --text-muted:     #66667a;
+  --text-silver:    #c4c4d0;
 
-  /* ── Accent: maroon-red, satin (not candy red) ── */
-  --accent:       #8f3b3b;
-  --accent-hover: #a84a4a;
-  --accent-deep:  #6e2c2e;
-  --accent-wash:  rgba(143, 59, 59, 0.14);
-  --accent-ring:  rgba(168, 74, 74, 0.45);
+  /* Accent — maroon-red, satin finish, WCAG AA compliant for text */
+  --accent:         #c46060;   /* 6.1:1 contrast on --bg-base */
+  --accent-hover:   #d47070;
+  --accent-deep:    #7a2e2e;
+  --accent-wash:    rgba(196, 96, 96, 0.12);
+  --accent-ring:    rgba(196, 96, 96, 0.40);
+  --accent-border:  #8f3b3b;   /* For decorative borders (lower contrast OK) */
 
-  /* ── Status (diagrams + indicators only) ── */
-  --ok:   #7a9a7e;
-  --warn: #b89a62;
-  --crit: #8f3b3b;
+  /* Status */
+  --ok:     #7a9a7e;
+  --warn:   #b89a62;
+  --danger: #c46060;
 
-  /* ── Code ── */
+  /* Code */
   --code-bg:  rgba(255, 255, 255, 0.04);
-  --code-fg:  #c9c9cf;
+  --code-fg:  #c4c4d0;
 
-  /* ── Sheen (used sparingly on chrome, not whole page) ── */
-  --shine-top: inset 0 1px 0 rgba(232, 232, 236, 0.16);
-  --shine-soft: 0 10px 36px rgba(0, 0, 0, 0.42);
-  --glow-maroon: 0 0 40px rgba(143, 59, 59, 0.22);
-  --tab-height: 64px;
+  /* Sheen / shadow */
+  --shine-top:  inset 0 1px 0 rgba(232, 232, 240, 0.12);
+  --shine-soft: 0 8px 32px rgba(0, 0, 0, 0.40);
+  --glow-accent: 0 0 40px rgba(196, 96, 96, 0.20);
 
-  /* ── Typography ── */
+  /* Nav / chrome */
+  --nav-bg: rgba(15, 15, 17, 0.82);
+  --nav-border: rgba(198, 198, 220, 0.10);
+
+  /* Theme icon */
+  --theme-icon: '☾';
+}
+
+/* ── Light theme ── */
+[data-theme="light"] {
+  /* Surfaces */
+  --bg-base:      #f8f8fc;
+  --bg-raised:    #ffffff;
+  --bg-inset:     #f0f0f6;
+  --bg-surface-2: #ebebf5;
+
+  /* Borders */
+  --line-faint:   rgba(60, 60, 100, 0.06);
+  --line-subtle:  rgba(60, 60, 100, 0.12);
+  --line-strong:  rgba(60, 60, 100, 0.22);
+  --line-shine:   rgba(255, 255, 255, 0.80);
+
+  /* Text */
+  --text-primary:   #18181e;
+  --text-secondary: #52526a;
+  --text-muted:     #8888a4;
+  --text-silver:    #5a5a78;
+
+  /* Accent */
+  --accent:         #9e3030;   /* 5.8:1 on light bg */
+  --accent-hover:   #b23c3c;
+  --accent-deep:    #7a2020;
+  --accent-wash:    rgba(158, 48, 48, 0.08);
+  --accent-ring:    rgba(158, 48, 48, 0.30);
+  --accent-border:  #9e3030;
+
+  /* Status */
+  --ok:     #3a7a3e;
+  --warn:   #8a6a20;
+  --danger: #9e3030;
+
+  /* Code */
+  --code-bg:  rgba(0, 0, 0, 0.04);
+  --code-fg:  #404060;
+
+  /* Sheen / shadow */
+  --shine-top:  inset 0 1px 0 rgba(255, 255, 255, 0.90);
+  --shine-soft: 0 4px 16px rgba(0, 0, 0, 0.10);
+  --glow-accent: none;
+
+  /* Nav / chrome */
+  --nav-bg: rgba(248, 248, 252, 0.88);
+  --nav-border: rgba(60, 60, 100, 0.12);
+
+  /* Theme icon */
+  --theme-icon: '☀';
+}
+
+/* ════════════════════════════════════════════════
+   TYPOGRAPHY
+   ════════════════════════════════════════════════ */
+:root {
   --font-sans: 'IBM Plex Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'IBM Plex Mono', 'Fira Code', ui-monospace, 'Cascadia Code', monospace;
 
-  --text-xs:   clamp(0.6875rem, 0.65rem + 0.2vw, 0.75rem);
-  --text-sm:   clamp(0.8125rem, 0.78rem + 0.17vw, 0.875rem);
-  --text-base: clamp(0.9375rem, 0.89rem + 0.24vw, 1rem);
-  --text-md:   clamp(1.0625rem, 1rem + 0.31vw, 1.125rem);
-  --text-lg:   clamp(1.25rem, 1.15rem + 0.5vw, 1.375rem);
-  --text-xl:   clamp(1.625rem, 1.45rem + 0.87vw, 1.75rem);
-  --text-2xl:  clamp(2rem, 1.7rem + 1.5vw, 2.5rem);
-  --text-3xl:  clamp(2.75rem, 2.2rem + 2.75vw, 3.5rem);
-  --text-4xl:  clamp(3.5rem, 2.75rem + 3.75vw, 4.5rem);
+  /* Modular scale (×1.2) clamped between mobile and desktop */
+  --text-xs:   clamp(0.6875rem, 0.65rem + 0.2vw,  0.75rem);
+  --text-sm:   clamp(0.8125rem, 0.78rem + 0.17vw,  0.875rem);
+  --text-base: clamp(0.9375rem, 0.89rem + 0.24vw,  1rem);
+  --text-md:   clamp(1.0625rem, 1rem  + 0.31vw,    1.125rem);
+  --text-lg:   clamp(1.25rem,   1.15rem + 0.5vw,   1.375rem);
+  --text-xl:   clamp(1.625rem,  1.45rem + 0.87vw,  1.75rem);
+  --text-2xl:  clamp(2rem,      1.7rem + 1.5vw,    2.5rem);
+  --text-3xl:  clamp(2.75rem,   2.2rem + 2.75vw,   3.5rem);
+  --text-4xl:  clamp(3.25rem,   2.5rem + 3.75vw,   4.25rem);
 
-  --space-1:  0.25rem;
-  --space-2:  0.5rem;
-  --space-3:  0.75rem;
-  --space-4:  1rem;
-  --space-5:  1.5rem;
-  --space-6:  2rem;
-  --space-8:  3rem;
-  --space-10: 4rem;
-  --space-12: 6rem;
-  --space-16: 10rem;
+  /* ════════════════════════════════════════════════
+     SPACING — 4px base
+     ════════════════════════════════════════════════ */
+  --space-1:  0.25rem;   /*  4px */
+  --space-2:  0.5rem;    /*  8px */
+  --space-3:  0.75rem;   /* 12px */
+  --space-4:  1rem;      /* 16px */
+  --space-5:  1.5rem;    /* 24px */
+  --space-6:  2rem;      /* 32px */
+  --space-8:  3rem;      /* 48px */
+  --space-10: 4rem;      /* 64px */
+  --space-12: 6rem;      /* 96px */
+  --space-16: 10rem;     /* 160px */
 
-  --max-width:      1200px;
-  --content-width:  65ch;
-  --nav-height:     60px;
-  --section-gap:    var(--space-12);
+  /* ════════════════════════════════════════════════
+     LAYOUT
+     ════════════════════════════════════════════════ */
+  --max-width:     1200px;
+  --content-width: 65ch;
+  --nav-height:    60px;
+  --tab-height:    64px;
+  --section-gap:   var(--space-12);
 
-  --radius-sm:   2px;
-  --radius:      4px;
+  /* ════════════════════════════════════════════════
+     SHAPE
+     ════════════════════════════════════════════════ */
+  --radius-sm: 3px;
+  --radius:    6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
 
+  /* ════════════════════════════════════════════════
+     Z-INDEX SCALE
+     ════════════════════════════════════════════════ */
+  --z-below:   -1;
+  --z-base:     0;
+  --z-raised:  10;
+  --z-overlay: 100;
+  --z-nav:     200;
+  --z-modal:   300;
+  --z-toast:   400;
+
+  /* ════════════════════════════════════════════════
+     MOTION — 120 / 200 / 320ms, restrained easings
+     ════════════════════════════════════════════════ */
   --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --dur-fast:    120ms;
-  --dur-base:    180ms;
-  --dur-slow:    250ms;
+  --dur-base:    200ms;
+  --dur-slow:    320ms;
+
+  /* ════════════════════════════════════════════════
+     BLUR (glassmorphism — sparingly: nav, cards, palette only)
+     ════════════════════════════════════════════════ */
+  --blur-sm:  blur(8px);
+  --blur-md:  blur(18px);
+  --blur-lg:  blur(28px);
 }

@@ -70,6 +70,7 @@ export type GitHubContributionDay = {
 
 export type GitHubContributions = {
   handle: string
+  year: number
   profileUrl: string
   total: number
   days: GitHubContributionDay[]

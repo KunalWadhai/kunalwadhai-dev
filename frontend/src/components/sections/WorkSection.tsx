@@ -9,7 +9,7 @@ import { ArrowRight } from 'lucide-react'
 
 export function WorkSection() {
   return (
-    <section id="work" className="section">
+    <section id="work" className="section" data-reveal>
       <div className="container">
         <div className="section__inner">
           <div className="section__title">
@@ -24,7 +24,7 @@ export function WorkSection() {
               </p>
             </div>
 
-            <div className="work-list">
+            <div className="work-list" data-reveal-stagger>
               {caseStudies.map((caseStudy) => (
                 <article key={caseStudy.id} className="work-row">
                   <div className="work-row__main">

@@ -1,14 +1,16 @@
 /**
- * Platform Map — Interactive 6-layer system diagram
- * The single memorable moment: draws in top-to-bottom on load (900ms), then still
- * Hover/focus on layer highlights related tech and jumps to case studies
+ * Platform map — a compact, interactive view of the production system's layers.
+ * Selecting a layer explains its role; the related case study is an explicit next step.
  */
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import { ArrowDown, ArrowRight, Check, CircleDot } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 interface Layer {
   id: string
   title: string
+  role: string
   items: string[]
   caseStudy?: string
 }
@@ -16,251 +18,356 @@ interface Layer {
 const layers: Layer[] = [
   {
     id: 'interfaces',
-    title: 'INTERFACES',
-    items: ['React operator UI', '// CONFIRM: Settings page scope'],
-    caseStudy: '#work',
+    title: 'Operator experience',
+    role: 'The surface where property teams configure and run daily operations.',
+    items: ['React operator UI', 'Settings & configuration'],
   },
   {
     id: 'bff',
-    title: 'API / BFF LAYER',
-    items: ['// CONFIRM: Express · TypeScript · Zod · Axios · AWS Lambda'],
-    caseStudy: '#work',
+    title: 'API & BFF',
+    role: 'Validates requests and turns operator actions into domain commands.',
+    items: ['Express', 'TypeScript', 'Zod', 'Axios', 'AWS Lambda'],
   },
   {
     id: 'services',
-    title: 'DOMAIN SERVICES',
-    items: [
-      '10+ Node services',
-      'Shared package library (schemas, utils, models)',
-      'Orchestration service (metadata, sync, inventory, indexing)',
-    ],
+    title: 'Domain services',
+    role: 'Coordinates the workflows shared across 100+ live properties.',
+    items: ['10+ Node.js services', 'Shared schemas & models', 'Sync · inventory · indexing'],
     caseStudy: 'shared-platform-library',
   },
   {
     id: 'integrations',
-    title: 'INTEGRATIONS',
-    items: [
-      'PMS: Mews · Beds24 · Bifrost · DeathStar',
-      'Locks: Tuya · Seam · Mosler',
-      'Payments',
-    ],
+    title: 'Partner integrations',
+    role: 'Connects property systems, access hardware, and payment providers.',
+    items: ['Mews · Beds24 · Bifrost · DeathStar', 'Tuya · Seam · Mosler', 'Payments'],
     caseStudy: 'smart-lock-provisioning',
   },
   {
     id: 'data',
-    title: 'DATA LAYER',
+    title: 'State & search',
+    role: 'Keeps reservations, operational state, and searchable records available.',
     items: ['MongoDB', 'Redis', 'OpenSearch'],
     caseStudy: 'reservation-state-machine',
   },
   {
     id: 'ops',
-    title: 'RUNTIME & OPS',
-    items: ['AWS Lambda · SQS · EC2', 'BullMQ', 'CloudWatch · Teams alerts'],
+    title: 'Runtime & reliability',
+    role: 'Runs asynchronous work and surfaces failures before they become incidents.',
+    items: ['Lambda · SQS · EC2', 'BullMQ', 'CloudWatch · Teams alerts'],
     caseStudy: 'service-health-tracing',
   },
 ]
 
 export function PlatformMap() {
-  const [activeLayer, setActiveLayer] = useState<string | null>(null)
-  const [drawn, setDrawn] = useState(false)
-
-  useEffect(() => {
-    // Draw in layers top-to-bottom on mount
-    const timer = setTimeout(() => setDrawn(true), 100)
-    return () => clearTimeout(timer)
-  }, [])
-
-  const handleLayerClick = (layer: Layer) => {
-    if (layer.caseStudy) {
-      const target = layer.caseStudy.startsWith('#')
-        ? layer.caseStudy
-        : `#work`
-      // Use href assignment to navigate to anchor — avoids eslint immutability rule
-      const a = document.createElement('a')
-      a.href = target
-      a.click()
-    }
-  }
+  const [activeLayerId, setActiveLayerId] = useState('services')
+  const activeLayer = layers.find((layer) => layer.id === activeLayerId) ?? layers[0]
 
   return (
-    <div className="platform-map" role="img" aria-label="System architecture: 6-layer platform map">
-      {/* Fine 16px sub-grid behind map */}
-      <div className="platform-map__fine-grid" aria-hidden="true" />
-
-      <div className="platform-map__layers">
-        {layers.map((layer, i) => (
-          <button
-            key={layer.id}
-            type="button"
-            className={`platform-map__layer ${activeLayer === layer.id ? 'platform-map__layer--active' : ''} ${drawn ? 'platform-map__layer--drawn' : ''}`}
-            style={{ '--layer-index': i } as React.CSSProperties}
-            onMouseEnter={() => setActiveLayer(layer.id)}
-            onMouseLeave={() => setActiveLayer(null)}
-            onFocus={() => setActiveLayer(layer.id)}
-            onBlur={() => setActiveLayer(null)}
-            onClick={() => handleLayerClick(layer)}
-            aria-label={`${layer.title}: ${layer.items.join(', ')}`}
-          >
-            <div className="platform-map__layer-title">{layer.title}</div>
-            <div className="platform-map__layer-items">
-              {layer.items.map((item, j) => (
-                <div key={j} className="platform-map__layer-item">
-                  {item}
-                </div>
-              ))}
-            </div>
-          </button>
-        ))}
+    <section className="platform-map" aria-labelledby="platform-map-title">
+      <div className="platform-map__topline">
+        <div>
+          <p className="platform-map__eyebrow">SYSTEM OVERVIEW <span>·</span> GUESTARA</p>
+          <h2 id="platform-map-title" className="platform-map__heading">Production platform</h2>
+        </div>
+        <span className="platform-map__status"><i /> LIVE SYSTEMS</span>
       </div>
 
-      {/* Visually hidden ordered list for screen readers */}
-      <ol className="sr-only">
-        <li>Interfaces: React operator UI</li>
-        <li>API/BFF Layer: Express, TypeScript, Zod, Axios, AWS Lambda</li>
-        <li>Domain Services: 10+ Node services, shared package library, orchestration service</li>
-        <li>Integrations: PMS (Mews, Beds24, Bifrost, DeathStar), Locks (Tuya, Seam, Mosler), Payments</li>
-        <li>Data Layer: MongoDB, Redis, OpenSearch</li>
-        <li>Runtime & Ops: AWS Lambda, SQS, EC2, BullMQ, CloudWatch, Teams alerts</li>
+      <p className="platform-map__intro">A request flows from operator action through domain services to partner systems and durable state.</p>
+
+      <ol className="platform-map__flow" aria-label="Platform layers, top to bottom">
+        {layers.map((layer, index) => {
+          const selected = activeLayerId === layer.id
+          return (
+            <li className="platform-map__step" key={layer.id}>
+              <div className="platform-map__rail" aria-hidden="true">
+                <span className="platform-map__index">{String(index + 1).padStart(2, '0')}</span>
+                <span className="platform-map__node">{selected ? <Check size={11} /> : <CircleDot size={11} />}</span>
+                {index < layers.length - 1 && <span className="platform-map__connector"><ArrowDown size={11} /></span>}
+              </div>
+
+              <button
+                type="button"
+                className={`platform-map__layer${selected ? ' is-active' : ''}`}
+                onClick={() => setActiveLayerId(layer.id)}
+                aria-pressed={selected}
+              >
+                <span className="platform-map__layer-head">
+                  <span className="platform-map__layer-title">{layer.title}</span>
+                  <span className="platform-map__layer-count">{String(layer.items.length).padStart(2, '0')} components</span>
+                </span>
+                <span className="platform-map__layer-items">
+                  {layer.items.map((item) => <span className="platform-map__item" key={item}>{item}</span>)}
+                </span>
+              </button>
+            </li>
+          )
+        })}
       </ol>
+
+      <div className="platform-map__detail" aria-live="polite">
+        <div className="platform-map__detail-copy">
+          <span className="platform-map__detail-label">{activeLayer.title}</span>
+          <p>{activeLayer.role}</p>
+        </div>
+        {activeLayer.caseStudy && (
+          <Link className="platform-map__case-link" to={`/work/${activeLayer.caseStudy}`} aria-label={`Read the ${activeLayer.title} case study`}>
+            Case study <ArrowRight size={14} aria-hidden="true" />
+          </Link>
+        )}
+      </div>
 
       <style>{`
         .platform-map {
+          --map-red: #cf6969;
           position: relative;
-          background: var(--bg-inset);
-          border: 1px solid var(--line-faint);
-          border-radius: var(--radius);
-          padding: var(--space-6);
-          min-height: 400px;
+          overflow: hidden;
+          padding: clamp(18px, 2.1vw, 28px);
+          border: 1px solid var(--line-subtle);
+          border-radius: var(--radius-md);
+          background:
+            radial-gradient(ellipse at 95% 0%, rgba(207, 105, 105, 0.09), transparent 42%),
+            linear-gradient(145deg, var(--bg-raised), var(--bg-inset) 76%);
+          box-shadow: var(--shine-top), 0 18px 50px rgba(0, 0, 0, 0.16);
         }
 
-        /* Fine 16px sub-grid (half opacity of main page grid) */
-        .platform-map__fine-grid {
-          position: absolute;
-          inset: 0;
-          z-index: 0;
-          pointer-events: none;
-          background-image:
-            linear-gradient(to right, var(--line-faint) 1px, transparent 1px),
-            linear-gradient(to bottom, var(--line-faint) 1px, transparent 1px);
-          background-size: 16px 16px;
-          opacity: 0.5;
-          border-radius: var(--radius);
+        .platform-map__topline {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 12px;
         }
 
-        @media (prefers-reduced-motion: reduce) {
-          .platform-map__fine-grid {
-            opacity: 0.3;
-          }
+        .platform-map__eyebrow,
+        .platform-map__detail-label {
+          color: var(--text-muted);
+          font-family: var(--font-mono);
+          font-size: 10px;
+          font-weight: 600;
+          letter-spacing: 0.09em;
+          text-transform: uppercase;
         }
 
-        .platform-map__layers {
-          position: relative;
-          z-index: 1;
+        .platform-map__eyebrow span { color: var(--map-red); }
+
+        .platform-map__heading {
+          margin-top: 6px;
+          color: var(--text-primary);
+          font-size: clamp(18px, 1.8vw, 22px);
+          font-weight: 600;
+          letter-spacing: -0.035em;
+        }
+
+        .platform-map__status {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          flex: 0 0 auto;
+          padding: 6px 9px;
+          border: 1px solid var(--line-subtle);
+          border-radius: 999px;
+          color: var(--text-secondary);
+          font-family: var(--font-mono);
+          font-size: 9px;
+          letter-spacing: 0.045em;
+        }
+
+        .platform-map__status i {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #62bd89;
+          box-shadow: 0 0 9px rgba(98, 189, 137, 0.5);
+        }
+
+        .platform-map__intro {
+          max-width: 46ch;
+          margin: 13px 0 17px;
+          color: var(--text-secondary);
+          font-size: var(--text-xs);
+          line-height: 1.5;
+        }
+
+        .platform-map__flow {
           display: flex;
           flex-direction: column;
-          gap: 1px;
+          gap: 5px;
+          list-style: none;
+        }
+
+        .platform-map__step {
+          display: grid;
+          grid-template-columns: 36px minmax(0, 1fr);
+          gap: 8px;
+          min-width: 0;
+          animation: map-step-in 360ms var(--ease-out) both;
+          animation-delay: calc(var(--step, 0) * 45ms);
+        }
+
+        .platform-map__step:nth-child(1) { --step: 0; }
+        .platform-map__step:nth-child(2) { --step: 1; }
+        .platform-map__step:nth-child(3) { --step: 2; }
+        .platform-map__step:nth-child(4) { --step: 3; }
+        .platform-map__step:nth-child(5) { --step: 4; }
+        .platform-map__step:nth-child(6) { --step: 5; }
+
+        @keyframes map-step-in {
+          from { opacity: 0; transform: translateY(6px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .platform-map__rail {
+          position: relative;
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          color: var(--text-muted);
+        }
+
+        .platform-map__index {
+          padding-top: 10px;
+          font-family: var(--font-mono);
+          font-size: 9px;
+          font-variant-numeric: tabular-nums;
+        }
+
+        .platform-map__node {
+          display: grid;
+          width: 23px;
+          height: 23px;
+          margin-top: 4px;
+          place-items: center;
+          border: 1px solid var(--line-strong);
+          border-radius: 50%;
+          background: var(--bg-inset);
+          color: var(--text-muted);
+          transition: color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+        }
+
+        .platform-map__connector {
+          display: grid;
+          flex: 1;
+          min-height: 18px;
+          place-items: center;
+          color: var(--line-strong);
         }
 
         .platform-map__layer {
+          display: block;
           width: 100%;
-          text-align: left;
-          background: var(--bg-raised);
+          min-width: 0;
+          padding: 10px 12px 11px;
           border: 1px solid var(--line-subtle);
-          padding: var(--space-4);
+          border-radius: 7px;
+          background: rgba(255, 255, 255, 0.018);
+          color: var(--text-primary);
+          text-align: left;
           cursor: pointer;
-          transition:
-            border-color var(--dur-base) var(--ease-out),
-            background var(--dur-base) var(--ease-out),
-            opacity var(--dur-base) var(--ease-out),
-            transform var(--dur-base) var(--ease-out);
-          
-          /* Draw-in animation (top to bottom) */
-          opacity: 0;
-          transform: translateY(-8px);
-        }
-
-        .platform-map__layer--drawn {
-          opacity: 1;
-          transform: translateY(0);
-          animation: layer-draw-in 0.4s var(--ease-out) forwards;
-          animation-delay: calc(var(--layer-index) * 0.15s);
-        }
-
-        @keyframes layer-draw-in {
-          from {
-            opacity: 0;
-            transform: translateY(-8px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .platform-map__layer {
-            animation: none;
-            opacity: 1;
-            transform: none;
-          }
-          .platform-map__layer--drawn {
-            animation: none;
-          }
+          transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
         }
 
         .platform-map__layer:hover,
         .platform-map__layer:focus-visible {
-          border-color: var(--accent);
-          background: var(--accent-wash);
+          border-color: var(--line-strong);
+          background: rgba(255, 255, 255, 0.04);
         }
 
-        .platform-map__layer--active {
-          border-color: var(--accent);
-          background: var(--accent-wash);
+        .platform-map__layer.is-active {
+          border-color: rgba(207, 105, 105, 0.55);
+          background: linear-gradient(100deg, rgba(207, 105, 105, 0.11), rgba(255, 255, 255, 0.025));
+          box-shadow: inset 2px 0 var(--map-red), 0 5px 18px rgba(0, 0, 0, 0.1);
+          transform: translateX(2px);
+        }
+
+        .platform-map__layer.is-active ~ * { color: var(--text-primary); }
+
+        .platform-map__layer-head {
+          display: flex;
+          align-items: baseline;
+          justify-content: space-between;
+          gap: 8px;
+          margin-bottom: 7px;
         }
 
         .platform-map__layer-title {
+          color: var(--text-primary);
           font-size: var(--text-xs);
           font-weight: 600;
+          letter-spacing: 0.015em;
+        }
+
+        .platform-map__layer-count {
+          flex: 0 0 auto;
+          color: var(--text-muted);
           font-family: var(--font-mono);
-          letter-spacing: 0.05em;
-          color: var(--text-secondary);
-          margin-bottom: var(--space-2);
+          font-size: 9px;
         }
 
         .platform-map__layer-items {
           display: flex;
-          flex-direction: column;
-          gap: var(--space-1);
+          flex-wrap: wrap;
+          gap: 5px;
         }
 
-        .platform-map__layer-item {
-          font-size: var(--text-sm);
+        .platform-map__item {
+          display: inline-flex;
+          max-width: 100%;
+          padding: 4px 7px;
+          border: 1px solid rgba(174, 183, 197, 0.12);
+          border-radius: 4px;
+          background: rgba(174, 183, 197, 0.045);
+          color: var(--text-secondary);
           font-family: var(--font-mono);
-          color: var(--text-primary);
-          line-height: 1.4;
+          font-size: 10px;
+          line-height: 1.35;
+          overflow-wrap: anywhere;
         }
 
-        /* Mobile: simplify layout */
+        .platform-map__detail {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          margin: 16px 0 0 44px;
+          padding-top: 13px;
+          border-top: 1px solid var(--line-subtle);
+        }
+
+        .platform-map__detail-copy { min-width: 0; }
+
+        .platform-map__detail-copy p {
+          margin-top: 4px;
+          color: var(--text-secondary);
+          font-size: 11px;
+          line-height: 1.45;
+        }
+
+        .platform-map__case-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          flex: 0 0 auto;
+          color: var(--text-primary);
+          font-size: 11px;
+          font-weight: 600;
+          white-space: nowrap;
+        }
+
+        .platform-map__case-link:hover { color: var(--map-red); }
+
         @media (max-width: 640px) {
-          .platform-map {
-            padding: var(--space-4);
-            min-height: 300px;
-          }
+          .platform-map { padding: 16px; }
+          .platform-map__status { padding-inline: 7px; font-size: 8px; }
+          .platform-map__layer { padding: 9px 10px; }
+          .platform-map__detail { align-items: flex-start; margin-left: 0; }
+          .platform-map__case-link { margin-top: 2px; }
+        }
 
-          .platform-map__layer {
-            padding: var(--space-3);
-          }
-
-          .platform-map__layer-title {
-            font-size: 10px;
-          }
-
-          .platform-map__layer-item {
-            font-size: 11px;
-          }
+        @media (prefers-reduced-motion: reduce) {
+          .platform-map__step { animation: none; }
+          .platform-map__layer,
+          .platform-map__node { transition: none; }
         }
       `}</style>
-    </div>
+    </section>
   )
 }

@@ -22,7 +22,8 @@ router.get('/contributions', async (req, res, next) => {
         if (!username) {
             return res.status(400).json({ ok: false, error: 'username query param is required' })
         }
-        const contrib = await getGithubContributions(username)
+        const year = req.query.year === undefined ? undefined : Number(req.query.year)
+        const contrib = await getGithubContributions(username, year)
         res.json({ ok: true, ...contrib })
     } catch (err) {
         next(err)

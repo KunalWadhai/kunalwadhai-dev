@@ -5,15 +5,16 @@ import type { GitHubContributions } from '../features/portfolio/types'
 
 type State = 'idle' | 'loading' | 'ready' | 'error'
 
-export function useGithubContributions(handle = SITE.githubHandle) {
+export function useGithubContributions(year: number, handle = SITE.githubHandle) {
   const [data, setData] = useState<GitHubContributions | null>(null)
   const [state, setState] = useState<State>('idle')
 
   useEffect(() => {
     let active = true
+    setData(null)
     setState('loading')
 
-    apiGet(`/api/github/contributions?username=${encodeURIComponent(handle)}`)
+    apiGet(`/api/github/contributions?username=${encodeURIComponent(handle)}&year=${year}`)
       .then((res) => {
         if (!active) return
         const payload = res as GitHubContributions & { ok?: boolean }
@@ -28,7 +29,7 @@ export function useGithubContributions(handle = SITE.githubHandle) {
         if (!active) return
         try {
           const res = await fetch(
-            `https://github-contributions-api.jogruber.de/v4/${encodeURIComponent(handle)}`,
+            `https://github-contributions-api.jogruber.de/v4/${encodeURIComponent(handle)}?y=${year}`,
           )
           if (!res.ok) throw new Error('mirror failed')
           const json = await res.json()
@@ -43,7 +44,8 @@ export function useGithubContributions(handle = SITE.githubHandle) {
           setData({
             handle,
             profileUrl: `https://github.com/${handle}`,
-            total: json.total?.lastYear ?? days.reduce((s: number, d: { count: number }) => s + d.count, 0),
+            year,
+            total: json.total?.[String(year)] ?? days.reduce((s: number, d: { count: number }) => s + d.count, 0),
             days,
             source: 'public-mirror',
             fetchedAt: new Date().toISOString(),
@@ -59,7 +61,7 @@ export function useGithubContributions(handle = SITE.githubHandle) {
     return () => {
       active = false
     }
-  }, [handle])
+  }, [handle, year])
 
   return { data, state }
 }
