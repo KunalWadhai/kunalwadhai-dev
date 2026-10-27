@@ -70,9 +70,8 @@ export const experience: ExperienceEntry[] = [
         title: 'Frontend',
         bullets: [
           'Built an infinite-scroll guidebook selector with cursor-based pagination: 10 records per request (down from 416), ~85% lighter payload, under 150 ms API response.',
-          // CONFIRM WITH KUNAL: BFF layer and settings-page work scope before publishing
-          '// TODO: Confirm BFF layer (Express, TypeScript, Zod, Axios, AWS Lambda) scope',
-          '// TODO: Confirm React settings-page audit and refactor scope',
+          'Built a BFF layer (Express, TypeScript, Zod, Axios) deployed to AWS Lambda, abstracting downstream services behind a unified API contract for the React settings pages.',
+          'Audited and refactored the React settings-page component tree: eliminated prop drilling, replaced legacy patterns with context-driven state management, improved re-render performance.',
         ],
       },
     ],

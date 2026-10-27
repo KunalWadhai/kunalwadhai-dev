@@ -61,11 +61,11 @@ function levelFromCount(count) {
     return 4
 }
 
-async function fetchContributionsGraphql(username) {
+async function fetchContributionsGraphql(username, year) {
     const query = `
-      query($login: String!) {
+      query($login: String!, $from: DateTime!, $to: DateTime!) {
         user(login: $login) {
-          contributionsCollection {
+          contributionsCollection(from: $from, to: $to) {
             contributionCalendar {
               totalContributions
               weeks {
@@ -87,7 +87,14 @@ async function fetchContributionsGraphql(username) {
             ...headers(),
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ query, variables: { login: username } }),
+        body: JSON.stringify({
+            query,
+            variables: {
+                login: username,
+                from: new Date(Date.UTC(year, 0, 1)).toISOString(),
+                to: new Date(Date.UTC(year, 11, 31, 23, 59, 59, 999)).toISOString(),
+            },
+        }),
     })
 
     if (!res.ok) return null
@@ -101,9 +108,9 @@ async function fetchContributionsGraphql(username) {
             count: d.contributionCount,
             level: Math.min(
                 4,
-                ['NONE', 'FIRST_QUARTILE', 'SECOND_QUARTILE', 'THIRD_QUARTILE', 'FOURTH_QUARTILE'].indexOf(
+                Math.max(0, ['NONE', 'FIRST_QUARTILE', 'SECOND_QUARTILE', 'THIRD_QUARTILE', 'FOURTH_QUARTILE'].indexOf(
                     d.contributionLevel,
-                ),
+                )),
             ),
         })),
     )
@@ -115,9 +122,9 @@ async function fetchContributionsGraphql(username) {
     }
 }
 
-async function fetchContributionsPublic(username) {
+async function fetchContributionsPublic(username, year) {
     const res = await fetch(
-        `https://github-contributions-api.jogruber.de/v4/${encodeURIComponent(username)}`,
+        `https://github-contributions-api.jogruber.de/v4/${encodeURIComponent(username)}?y=${year}`,
     )
     if (!res.ok) return null
     const json = await res.json()
@@ -128,33 +135,41 @@ async function fetchContributionsPublic(username) {
         level: Number.isFinite(d.level) ? d.level : levelFromCount(d.count),
     }))
     const total =
-        json.total?.lastYear ?? days.reduce((sum, d) => sum + d.count, 0)
+        json.total?.[String(year)] ?? days.reduce((sum, d) => sum + d.count, 0)
 
     return { total, days, source: 'public-mirror' }
 }
 
-export async function getGithubContributions(username) {
+export async function getGithubContributions(username, requestedYear = new Date().getUTCFullYear()) {
     if (!username) throw Object.assign(new Error('username is required'), { status: 400 })
 
     const handle = username.trim()
-    const cached = contribCache.get(handle)
+    const year = Number(requestedYear)
+    const currentYear = new Date().getUTCFullYear()
+    if (!Number.isInteger(year) || year < 2008 || year > currentYear) {
+        throw Object.assign(new Error(`year must be between 2008 and ${currentYear}`), { status: 400 })
+    }
+
+    const cacheKey = `${handle}:${year}`
+    const cached = contribCache.get(cacheKey)
     if (cached && Date.now() - cached.ts < CONTRIB_TTL_MS) return cached.data
 
-    let data = env.GITHUB_TOKEN ? await fetchContributionsGraphql(handle) : null
-    if (!data) data = await fetchContributionsPublic(handle)
+    let data = env.GITHUB_TOKEN ? await fetchContributionsGraphql(handle, year) : null
+    if (!data) data = await fetchContributionsPublic(handle, year)
     if (!data) {
         throw Object.assign(new Error('Could not load GitHub contributions'), { status: 502 })
     }
 
     const result = {
         handle,
+        year,
         profileUrl: `https://github.com/${handle}`,
         total: data.total,
-        days: data.days.slice(-371),
+        days: data.days.filter((day) => day.date.startsWith(`${year}-`)),
         source: data.source,
         fetchedAt: new Date().toISOString(),
     }
 
-    contribCache.set(handle, { ts: Date.now(), data: result })
+    contribCache.set(cacheKey, { ts: Date.now(), data: result })
     return result
 }

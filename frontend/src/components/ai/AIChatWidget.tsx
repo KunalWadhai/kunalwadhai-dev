@@ -57,6 +57,20 @@ export function AIChatWidget() {
     if (open) inputRef.current?.focus()
   }, [open])
 
+  useEffect(() => {
+    if (!open) return
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpen(false)
+    }
+    window.addEventListener('keydown', closeOnEscape)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [open])
+
   const speak = useCallback(
     (text: string) => {
       if (!ttsEnabled || !window.speechSynthesis) return
@@ -124,25 +138,33 @@ export function AIChatWidget() {
   return (
     <>
       {!open && (
-        <button type="button" className="agent-fab" onClick={() => setOpen(true)} aria-label="Open AI agent">
-          <Bot size={22} />
+        <button type="button" className="agent-fab" onClick={() => setOpen(true)} aria-label="Ask about Kunal's work">
+          <Bot size={21} aria-hidden="true" />
+          <span className="agent-fab__status" aria-hidden="true" />
         </button>
       )}
 
       {open && (
-        <div className="agent-modal" onClick={() => setOpen(false)}>
-          <div className="agent-panel" onClick={(e) => e.stopPropagation()} role="dialog" aria-label="AI agent">
+        <div className="agent-modal" onClick={() => setOpen(false)} role="presentation">
+          <section
+            className="agent-panel"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="agent-title"
+          >
             <header className="agent-panel__head">
               <div className="agent-panel__id">
-                <Bot size={16} />
+                <span className="agent-panel__avatar"><Bot size={19} aria-hidden="true" /></span>
                 <div>
-                  <strong>Site agent</strong>
-                  <span>Live · grounded on profile</span>
+                  <span className="agent-panel__eyebrow">PORTFOLIO ASSISTANT</span>
+                  <strong id="agent-title">Ask about my work</strong>
+                  <span className="agent-panel__presence"><i />Here to help with systems, shipping, and impact</span>
                 </div>
               </div>
               <div className="agent-panel__actions">
                 {hasSpeech && (
-                  <button type="button" className="icon-btn" onClick={toggleListening} aria-label="Voice input">
+                  <button type="button" className={`icon-btn ${listening ? 'is-on' : ''}`} onClick={toggleListening} aria-label={listening ? 'Stop voice input' : 'Start voice input'} title={listening ? 'Stop voice input' : 'Voice input'}>
                     {listening ? <MicOff size={15} /> : <Mic size={15} />}
                   </button>
                 )}
@@ -150,29 +172,31 @@ export function AIChatWidget() {
                   type="button"
                   className={`icon-btn ${ttsEnabled ? 'is-on' : ''}`}
                   onClick={() => setTtsEnabled((v) => !v)}
-                  aria-label="Toggle speech"
+                  aria-label={ttsEnabled ? 'Turn off spoken responses' : 'Turn on spoken responses'}
+                  title={ttsEnabled ? 'Turn off spoken responses' : 'Turn on spoken responses'}
                 >
                   {ttsEnabled ? <Volume2 size={15} /> : <VolumeX size={15} />}
                 </button>
-                <button type="button" className="icon-btn" onClick={() => setOpen(false)} aria-label="Close">
+                <button type="button" className="icon-btn" onClick={() => setOpen(false)} aria-label="Close assistant" title="Close">
                   <X size={15} />
                 </button>
               </div>
             </header>
 
-            <div className="agent-panel__msgs">
+            <div className="agent-panel__msgs" aria-live="polite" aria-relevant="additions">
               {messages.map((m, i) => (
-                <div key={`${m.role}-${i}`} className={`agent-msg agent-msg--${m.role}`}>
-                  <span className="agent-msg__icon">{m.role === 'assistant' ? <Bot size={12} /> : <User size={12} />}</span>
+                <div key={`${m.role}-${i}`} className={`agent-msg agent-msg--${m.role}${i === 0 ? ' agent-msg--welcome' : ''}`}>
+                  <span className="agent-msg__icon">{m.role === 'assistant' ? <Bot size={13} aria-hidden="true" /> : <User size={13} aria-hidden="true" />}</span>
                   <p>{m.content}</p>
                 </div>
               ))}
-              {loading && <div className="agent-typing" aria-hidden="true"><span /><span /><span /></div>}
+              {loading && <div className="agent-typing" role="status" aria-label="Assistant is thinking"><span /><span /><span /></div>}
               <div ref={endRef} />
             </div>
 
             {messages.length <= 1 && (
               <div className="agent-panel__quick">
+                <span className="agent-panel__quick-label">TRY ASKING</span>
                 {QUICK_PROMPTS.map((q) => (
                   <button key={q} type="button" onClick={() => send(q)}>
                     {q}
@@ -188,7 +212,9 @@ export function AIChatWidget() {
                 void send()
               }}
             >
+              <label className="sr-only" htmlFor="agent-message">Message</label>
               <input
+                id="agent-message"
                 ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -199,7 +225,8 @@ export function AIChatWidget() {
                 <Send size={16} />
               </button>
             </form>
-          </div>
+            <p className="agent-panel__footnote">Answers are based on the portfolio and may take a moment.</p>
+          </section>
         </div>
       )}
     </>

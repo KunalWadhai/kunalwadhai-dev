@@ -41,7 +41,7 @@ export function ExperienceSection() {
   }
 
   return (
-    <section id="experience" className="section">
+    <section id="experience" className="section" data-reveal>
       <div className="container">
         <div className="section__inner">
           <div className="section__title">

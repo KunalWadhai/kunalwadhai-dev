@@ -8,7 +8,7 @@ import { ExternalLink, Award, GraduationCap } from 'lucide-react'
 
 export function ProofSection() {
   return (
-    <section id="proof" className="section">
+    <section id="proof" className="section" data-reveal>
       <div className="container">
         <div className="section__inner">
           <div className="section__title">

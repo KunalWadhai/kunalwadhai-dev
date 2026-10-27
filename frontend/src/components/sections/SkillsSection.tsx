@@ -7,7 +7,7 @@ import { skillGroups } from '../../content/skills'
 
 export function SkillsSection() {
   return (
-    <section id="skills" className="section">
+    <section id="skills" className="section" data-reveal>
       <div className="container">
         <div className="section__inner">
           <div className="section__title">
@@ -22,7 +22,7 @@ export function SkillsSection() {
               </p>
             </div>
 
-            <div className="skills-matrix">
+            <div className="skills-matrix" data-reveal-stagger>
               {skillGroups.map((group) => (
                 <div key={group.id} className="skill-row">
                   <h4 className="skill-row__category">{group.category}</h4>

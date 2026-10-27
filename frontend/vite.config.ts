@@ -1,10 +1,15 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// Note: ssgOptions is injected by vite-react-ssg's own defineConfig wrapper.
-// We use base vite defineConfig here; ssg build is run via `npx vite-react-ssg build`.
+// Optional: bundle visualizer (install with: npm i -D rollup-plugin-visualizer)
+// import { visualizer } from 'rollup-plugin-visualizer'
+
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    // Uncomment after installing rollup-plugin-visualizer:
+    // visualizer({ open: true, gzipSize: true, brotliSize: true }),
+  ],
   server: {
     port: 5173,
     proxy: {
@@ -13,30 +18,36 @@ export default defineConfig({
     },
   },
   build: {
-    // Manual chunking for better code splitting
+    // Target modern browsers — reduces polyfill overhead
+    target: 'es2020',
+    // Source maps off in production
+    sourcemap: false,
+    // Warn when chunk > 100KB gzip (enforce JS budget < 150KB initial)
+    chunkSizeWarningLimit: 100,
     rollupOptions: {
       output: {
         manualChunks(id) {
-          // React core
-          if (id.includes('node_modules/react') || 
-              id.includes('node_modules/react-dom') || 
-              id.includes('node_modules/react-router-dom')) {
-            return 'react-vendor';
+          // React core — stable, cache-forever
+          if (
+            id.includes('node_modules/react/') ||
+            id.includes('node_modules/react-dom/') ||
+            id.includes('node_modules/react-router')
+          ) {
+            return 'react-vendor'
           }
-          // Icons (lucide-react tree-shakes unused icons automatically)
+          // Icons — tree-shaken but still worth isolating
           if (id.includes('node_modules/lucide-react')) {
-            return 'icons';
+            return 'icons'
+          }
+          // Fonts — large, load separately
+          if (id.includes('node_modules/@fontsource')) {
+            return 'fonts'
           }
         },
       },
     },
-    // Target modern browsers (reduces polyfills)
-    target: 'es2020',
-    // Source maps disabled for production size
-    sourcemap: false,
   },
-  // Optimize deps
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom'],
+    include: ['react', 'react-dom', 'react-router-dom', 'lucide-react'],
   },
 })

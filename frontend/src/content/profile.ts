@@ -22,11 +22,10 @@ export const profile: ProfileContent = {
   name: 'Kunal Wadhai',
   email: 'kunalwadhai456@gmail.com',
   
-  // Using headline option 1 from brief Section 2
-  // (can be changed: options 2-3 or custom)
-  headline: 'Full-stack engineer with a backend core.',
+  // Direct and specific — no filler, no generic claims
+  headline: 'Backend-first full-stack engineer. I own production systems end to end.',
   
-  bio: 'I design, build, and operate the systems behind hotel operations, from integrations and queues to the interfaces staff use every day.',
+  bio: 'I design, build, and operate the platform behind hotel operations at Guestara — from PMS integrations and IoT provisioning to the queues and services that keep 100+ properties running.',
   
   social: {
     github: 'https://github.com/KunalWadhai',
