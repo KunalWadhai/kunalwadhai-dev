@@ -13,6 +13,13 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    name: 'DSA Forge',
+    description: 'RAG-powered DSA learning platform with intelligent Q&A. Vector search (Pinecone) retrieves relevant content from curated knowledge base, NVIDIA LLM generates contextual answers with source citations. JWT auth, conversation memory, markdown rendering. 82% test coverage, <3s RAG pipeline latency.',
+    url: 'https://dsa-forge-drab.vercel.app',
+    githubUrl: 'https://github.com/KunalWadhai/dsaForge',
+    stack: ['Next.js 14', 'TypeScript', 'Express', 'MongoDB', 'Pinecone', 'NVIDIA LLM', 'Google Gemini', 'JWT'],
+  },
+  {
     name: 'FoodSnatch',
     description: 'Food discovery platform with role-based JWT auth, personalized content, and dynamic image transformation via ImageKit CDN. HTTPS load-balanced deployment with 99% uptime, Redis caching for high-concurrency menu reads, MongoDB indexing.',
     url: 'https://foodsnatch.onrender.com',
