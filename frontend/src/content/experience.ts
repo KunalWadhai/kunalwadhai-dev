@@ -136,7 +136,7 @@ export const experience: ExperienceEntry[] = [
   // ── Zoho: Embedded Systems Trainee ──
   {
     company: 'Zoho',
-    role: 'Embedded Systems Trainee',
+    role: 'Firmware Project Trainee',
     startDate: '2025-01',
     endDate: '2025-04',
     scope: 'Hardware-to-cloud range signal: Yocto Linux images, OpenBMC WebUI, real-time sensor telemetry.',
@@ -144,7 +144,7 @@ export const experience: ExperienceEntry[] = [
     areas: [
       {
         id: 'embedded-firmware',
-        title: 'Embedded firmware development',
+        title: 'firmware development',
         defaultExpanded: true,
         bullets: [
           'Built custom Yocto Linux images for BeagleBone Black and Raspberry Pi; wrote build recipes integrating a TMP75 I2C temperature sensor with automated kernel-level initialization.',
